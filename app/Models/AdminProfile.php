@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AdminProfile extends Model
 {
     protected $connection = 'mysql';
-    protected $table = 'users_profiles';
+    protected $table = 'user_profiles';
 
  public static function adminprofile(){
 
