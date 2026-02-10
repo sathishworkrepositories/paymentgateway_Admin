@@ -8703,11 +8703,13 @@ a.text-danger:hover {
     color: #fff;
     cursor: pointer;
     font-weight: bold;
-    background: linear-gradient(276.06deg, #84BDF1 0%, #8273F5 100%);
+    /* background: linear-gradient(276.06deg, #84BDF1 0%, #8273F5 100%); */
+    background: #025376;
 }
 
 .btn-light:hover {
-    background-image: url("../img/btn-bg.png");
+    /* background-image: url("../img/btn-bg.png"); */
+    background: #6FBF76;
     background-size: 100%;
     color: #fff;
 }
@@ -8715,7 +8717,7 @@ a.text-danger:hover {
 .btn-light.active,
 .btn-light:active,
 .show>.btn-light.dropdown-toggle {
-    background-color: #3c6bf1;
+    background-color: #a0eea6;
     color: #fff;
 }
 
