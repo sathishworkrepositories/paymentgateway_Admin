@@ -9263,6 +9263,7 @@ pagination {
 .alert-success {
     background-color: rgba(40, 167, 69, .95);
     border-color: #28a745;
+    color: #fff !important;
 }
 
 .alert-info {
