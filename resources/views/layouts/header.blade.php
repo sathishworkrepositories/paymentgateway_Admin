@@ -41,7 +41,7 @@
     @stack('customscripts')
 </head>
 <?php
-  
+
   if(isset($atitle)){
     $active = $atitle;
   }else{
@@ -175,9 +175,9 @@
                             Settings</a></li>
                     @endif
                     @if(in_array("write", explode(',',$AdminProfiledetails->cms_settings)))
-                    <li class="navigation__sub navigation__sub--toggled"><a href="#"><i class="zmdi zmdi-settings"
+                    <li class="navigation__sub navigation__sub--toggled" id="herehead"><a href="#"><i class="zmdi zmdi-settings"
                                 aria-hidden="true"></i>Site Settings</a>
-                        <ul @if($active=="cms" ) style="display: block;" @else style="display: none;" @endif>
+                        <ul id="showdrops" style="display:none">
                             @php $selectedmenu = \Request::segment(2); @endphp
                             <li class="@@colorsactive"><a @if($selectedmenu=="tc" ) class="active" @endif
                                     href="{{ url('admin/tc') }}">Terms & Conditions</a></li>
@@ -234,6 +234,12 @@
         </script>
 
         <script>
+
+
+            $("#herehead").on('click',function(){
+
+                $('#showdrops').toggle();
+            })
         $(document).click(function(e) {
             if (!$(e.target).closest('.sidebar, #sidebarToggle').length) {
                 $('.sidebar').removeClass('open');
