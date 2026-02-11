@@ -44,7 +44,7 @@
                             </div>
                         </form>
                     </div>
-                    <!-- 
+                    <!--
         <div class="col-md-2">
         <a class="btn btn-info export" href="#" onclick="exportTableToCSV('subadmin.csv')" ><i class="fa fa-download"></i>&nbsp;Download Excel </a>
         </div> -->
@@ -87,7 +87,7 @@
                             <tr>
                                 <td>{{ $i }}</td>
                                 <td>{{ $user->name }}</td>
-                                <td>@php echo $user->email!= "" ? $user->email, 0, 100, "..." : ''; @endphp</td>
+                                <td>@php echo $user->email!= "" ? substr($user->email, 0, 100). "..." : ''; @endphp</td>
                                 <td>{{ date('d-m-Y H:i:s',strtotime($user->created_at)) }}</td>
                                 <!-- <td>{{ $user->login_time  != ""? $user->login_time  :'-'  }}</td>
             <td>{{ $user->logout_time != "" ? $user->logout_time : '-'  }}</td> -->
