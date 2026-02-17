@@ -105,23 +105,24 @@ $atitle ="user";
 								<div class="form-group">
 									<select class="form-control" name="status">
 									    <option value="0">Waiting for approval</option>
-										<option value="1">Approved</option>
-										<option value="2">Rejected</option>
+										<option value="2">Approved</option>
+										<option value="3">Rejected</option>
 									</select>
 								</div>
 							</div>
-							@elseif($withdraw->status == 1)
+							@elseif($withdraw->status == 2)
 							<div class="col-md-4">
 								<div class="form-group">
 										Approved
 								</div>
 							</div>
-							@else
+							@elseif($withdraw->status == 3)
 							<div class="col-md-4">
 								<div class="form-group">
 										Rejected
 								</div>
 							</div>
+                            @else
 							@endif
 							<p class="text text-info">NOTE : Once you update the status as "Approved / Rejected", you can't update status again!</p>
 						</div>
