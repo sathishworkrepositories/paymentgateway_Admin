@@ -15,6 +15,8 @@ use App\Mail\AdminRejectKyc;
 use App\Models\Coinuser;
 use App\Models\AdminsUser;
 use Mail;
+use App\Models\Countries;
+use DB;
 
 class KycController extends Controller
 {
@@ -27,7 +29,7 @@ class KycController extends Controller
 
     public function index()
     {
-    	
+
     	$kyc = Kyc::index();
 
     	return view('user.kyc',[
@@ -38,21 +40,86 @@ class KycController extends Controller
     public function kycview($id)
     {
         $kyc = Kyc::edit(Crypt::decrypt($id));
+        $countrylist = Countries::get();
+
 
         return view('user.kyc_edit',[
-                'kyc' => $kyc
-            ]);
+                'kyc' => $kyc,
+                'countrylist' => $countrylist
+        ]);
+    }
+
+    public function kycadminUpdate(Request $request){
+        try{
+
+
+            $save = DB::transaction(function() use($request){
+
+
+                $kyc = Kyc::where('id', $request->kycid)
+                ->lockForUpdate()
+                ->first();
+
+                if(!$kyc){
+                    throw new \Exception('KYC not found');
+
+                }
+
+                $payload = [
+                    'fname'          => $request->fname ?? "",
+                    'lname'          => $request->lname ?? "",
+                    'dob'            => $request->dob ?? "",
+                    'city'           => $request->city ?? "",
+                    'state'          => $request->state ?? "",
+                    'country'        => $request->country ?? "",
+                    'phone_no'       => $request->phone_no ?? "",
+                    'zip_code'       => $request->zip_code ?? "",
+                    'gender_type'    => $request->gender_type ?? "",
+                    'address_line1'  => $request->address_line1 ?? "",
+                    'address_line2'  => $request->address_line2 ?? "",
+                    'telegram_name'  => $request->telegram_name ?? "",
+                    'id_type'        => $request->id_type ?? "",
+                    'id_number'      => $request->id_number ?? "",
+                    'id_exp'         => $request->id_exp ?? "",
+                    'proofpaper'     => $request->proofpaper ?? "",
+                    'status'         => ($kyc->status != 1 && $kyc->status != 2) ? $request->status : $kyc->status,
+                    'updated_at'     => date('Y-m-d H:i:s'),
+                    'remark' => $request->remark ?? ""
+                ];
+
+                $kyc->update($payload);
+
+                if($request->status == 1){
+                    User::where('id',$kyc->uid)->update([
+                        'kyc_verify' => 1
+                    ]);
+                }
+
+                return true;
+            });
+
+            if($save){
+
+                return back()->with('status', 'KYC submitted successfully');
+            }
+
+            return back()->with('error', 'Unable to update kyc, something went wrong');
+
+        }catch(\Exception $e){
+
+            return back()->with('error','Unable to update kyc, something went wrong');
+        }
     }
 
     public function kycUpdate(Request $request)
     {
       $status = $request->status;
       $thisUser=Coinuser::find($request->uid);
-      
+
       if($status == 1){
-             
+
         $userkyc =Kyc::where('id',$request->kyc_id)->first();
-        
+
         if ($userkyc->status == 0){
 
           //     $request->validate([
@@ -106,7 +173,7 @@ class KycController extends Controller
             'addressproofmatches.required' => 'Status can’t be successful due to the checklist not being ticked',
             'proofofresidence.required' => 'Status can’t be successful due to the checklist not being ticked',
         ]);
-    
+
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
@@ -119,9 +186,9 @@ class KycController extends Controller
             AdminsUser::updateUserkyc($userkyc);
             // AffliateTransaction::affliate_transaction($request->uid,0,'register');
           }
-          
+
         }
-       
+
       }
       else if($status == 2)
       {
@@ -134,7 +201,7 @@ class KycController extends Controller
 
     public function EmailAcceptKYC($thisUser)
     {
-        
+
       try {
        Mail::to($thisUser['email'])->send(new AdminAcceptKyc($thisUser));
      } catch (Exception $e){

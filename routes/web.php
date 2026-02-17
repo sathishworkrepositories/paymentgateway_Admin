@@ -18,15 +18,15 @@ Route::get('/', function () {
 
 Route::post('login','AdminLoginController@login');
 Route::get('logout', 'AdminLoginController@logout');
-Route::group([ 'middleware' => ['admin'], 'prefix'=>'admin', 'namespace' =>'Admin' ], function () 
+Route::group([ 'middleware' => ['admin'], 'prefix'=>'admin', 'namespace' =>'Admin' ], function ()
 {
-	//google 2FA 
+	//google 2FA
 	Route::get('/googe2faenable', 'TwofaController@enableGoogleTwoFactor')->name('googe2faenable');
 	Route::post('/google_admin_verfiy', 'TwofaController@google_admin_verfiy')->name('google_admin_verfiy');
 
 });
 
-Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace' =>'Admin' ], function () 
+Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace' =>'Admin' ], function ()
 {
 
 	Route::get('dashboard', 'DashboardController@index');
@@ -50,7 +50,7 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
 	Route::get('user_fiat_withdraw/{id}', 'UserController@user_fiat_withdraw');
 	Route::get('fiat_withdraw_edit/{id}', 'UserController@fiat_withdraw_edit');
 	Route::post('fiat_withdraw_update', 'UserController@fiat_withdraw_update');
-	
+
 	//User Commission Setting
 	Route::get('usercommissionsetting/{id}', 'UserController@UserCommissionSetting');
 	Route::get('createusercommission/{uid}', 'UserController@CreateUserCommission');
@@ -79,7 +79,7 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
 	Route::get('withdraw_edit/{id}', 'HistroyController@withdrawFiatEdit');
 	Route::post('withdraw_update', 'HistroyController@withdrawFiatUpdate');
 
-	
+
 	//Commission
 	Route::get('commission', 'CommissionController@index');
 	Route::get('commissionsettings/{id}', 'CommissionController@edit');
@@ -101,7 +101,7 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
 	//Kyc
 	Route::get('kyc', 'KycController@index');
 	Route::get('kycview/{id}', 'KycController@kycview');
-	Route::post('kycupdate', 'KycController@kycUpdate');
+	Route::post('kycupdate', 'KycController@kycadminUpdate');
 
 	//Site Settings
 	Route::get('logo', 'SettingsController@logo');
@@ -132,14 +132,14 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
 	Route::get('how', 'SettingsController@howwork');
 	Route::post('work_update', 'SettingsController@work_update');
 
-	Route::get('faq', 'SettingsController@faq'); 
+	Route::get('faq', 'SettingsController@faq');
 	Route::get('/faq_add', 'SettingsController@faq_add');
 	Route::post('/faq_save', 'SettingsController@faq_save');
 	Route::get('/faq_edit/{id}', 'SettingsController@faq_edit');
 	Route::get('/faq_delete/{id}', 'SettingsController@faq_destroy');
 	Route::post('/faq_update', 'SettingsController@faq_update');
 
-	Route::get('socialmedia', 'SettingsController@socialmedia'); 
+	Route::get('socialmedia', 'SettingsController@socialmedia');
 	Route::post('save_social_media', 'SettingsController@saveSocialMedia');
 
 	//Security
@@ -178,7 +178,7 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
     Route::get('blogs-list', 'CmsController@listBlog')->name('blogsList');
     Route::get('edit-blog/{id}', 'CmsController@editBlog')->name('editBlog');
     Route::get('delete-blog/{id}', 'CmsController@deleteBlog')->name('deleteBlog');
-	
+
 	Route::post('cryptosendamount','AdminAddressController@cryptoSendAmount');
 
 	Route::get('feewalletedit/{id}','AdminAddressController@feeWalletedit');
@@ -215,7 +215,7 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
 	Route::get('securityview', 'SettingsController@securityview');
 	Route::post('securityupdate', 'SettingsController@update_kyc');
 
-	//Admin Fee Wallet 
+	//Admin Fee Wallet
     Route::get('feewallet/{coin}','AdminWalletController@feeWallet');
 
 });

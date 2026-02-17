@@ -12,13 +12,13 @@ $atitle ="support";
 </header>
 @if ($message = Session::get('success'))
 <div class="alert alert-success alert-block">
-<button type="button" class="close" data-dismiss="alert">×</button> 
+<button type="button" class="close" data-dismiss="alert">×</button>
 <strong>{{ $message }}</strong>
 </div>
 @endif
 @if ($message = Session::get('failed'))
 <div class="alert alert-danger alert-block">
-<button type="button" class="close" data-dismiss="alert">×</button> 
+<button type="button" class="close" data-dismiss="alert">×</button>
 <strong>{{ $message }}</strong>
 </div>
 @endif
@@ -54,7 +54,7 @@ $atitle ="support";
 @else
 <img  src="{{ url('images/userchat.jpg') }}"></img>
 @endif
-<p>{{ $row->message }}</p>								
+<p>{{ $row->message }}</p>
 <small><i class="zmdi zmdi-time"></i>{{ $row->created_at }}</small>
 </div>
 </div>
@@ -68,15 +68,15 @@ $atitle ="support";
 </div>
 </div>
 @endif
-@endforeach 
-@endif  
+@endforeach
+@endif
 </div>
 <div class="messages__reply">
 <form method="post" action="{{ url('admin/tickets/adminsavechat') }}" id="chatform" enctype="multipart/form-data">
 {{ csrf_field() }}
 <input type="hidden" name="chat_id"  id="chat_id" value="{{ $chatlist[0]->ticketid }}">
 <input type="hidden" name="userid"  id="userid" value="{{ $chatlist[0]->uid }}">
-<div class="row">					
+<div class="row">
 <div class="col-md-11">
 <textarea class="messages__reply__text message1" name="message" id="admin_support_textbox" placeholder="Type a message..." required></textarea>
 </div>
