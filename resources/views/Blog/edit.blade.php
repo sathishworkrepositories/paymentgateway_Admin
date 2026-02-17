@@ -23,7 +23,7 @@ $atitle ="coinlist";
 					@if(Session::has('error'))
 						<p class="alert alert-danger">{{ Session::get('error') }}</p>
 					@endif
-					
+
 					<form method="post" action="{{ route('updateBlog') }}" autocomplete="off" enctype="multipart/form-data">
 						{{ csrf_field() }}
 
@@ -94,7 +94,7 @@ $atitle ="coinlist";
 									<input type="file" id="image-uploadify" name="blog_image" class="form-control" value="{{ $blog->blog_image }}" step="any" /><i class="form-group__bar"></i>
 									</br>
 									</br>
-									<img src ="{{url('public/images/colorimage')}}/{{$blog->blog_image ?? ''}}" id="blog_imageshow" alt="" style="height:200px">
+									<img src ="{{url('images/colorimage')}}/{{$blog->blog_image ?? ''}}" id="blog_imageshow" alt="" style="height:200px">
 									</br>
 									@if ($errors->has('blog_image'))
 									<span class="help-block">
@@ -126,7 +126,7 @@ $atitle ="coinlist";
 	}
 
 $("#image-uploadify").change(function() {
-    
+
     readURLsecond(this);
 });
 </script>

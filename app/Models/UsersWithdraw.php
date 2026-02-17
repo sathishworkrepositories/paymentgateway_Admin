@@ -46,7 +46,7 @@ class UsersWithdraw extends Model
         $id         = $request->id;
         $status     = $request->status;
         $currency   = $request->currency;
-        
+        $status1 = "";
         $deposit_data = UsersWithdraw::on('mysql2')->where('id', $request->id)->first();
 
         if($deposit_data)
@@ -63,30 +63,30 @@ class UsersWithdraw extends Model
                 $user->balance      = ncAdd($user->balance, $return_amt);
                 $user->save();
 
-                $status1 = 'Cancel'; 
-            } 
+                $status1 = 'Cancel';
+            }
             else if($status == 2) {
-                $status1 = 'Accept'; 
+                $status1 = 'Accept';
             }
             else if($status == 0) {
-                $status1 = 'Waiting'; 
+                $status1 = 'Waiting';
             }
 
             $deposit_data->status = $status;
             $deposit_data->save();
-            
+
         }
 
-        $user = User::on('mysql2')->where('id',$deposit_data->user_id)->first(); 
+        $user = User::on('mysql2')->where('id',$deposit_data->user_id)->first();
 
 
         $details = array(
             'status'    => $status1,
             'coin'      => $coin,
             'amount'    => $deposit_data->amount,
-            'user'      => $user->name 
-        ); 
-        
+            'user'      => $user->name
+        );
+
         \Mail::to($user->email)->send(new WithdrawEmail($details));
 
         return true;
