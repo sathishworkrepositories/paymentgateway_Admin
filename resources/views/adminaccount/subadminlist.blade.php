@@ -70,7 +70,7 @@
                                 <th>Date & Time</th>
                                 <!-- <th>logintime</th>
                 <th>loginout</th> -->
-                                @if(in_array("write", explode(',',$subadmin->addadmin)) || in_array("write",
+                                @if(in_array("read", explode(',',$subadmin->addadmin)) || in_array("delete",
                                 explode(',',$subadmin->addadmin)))
                                 <th>Action</th>
                                 @endif
@@ -93,7 +93,7 @@
             <td>{{ $user->logout_time != "" ? $user->logout_time : '-'  }}</td> -->
                                 <td class="td-btns">
 
-                                    @if(in_array("write", explode(',',$subadmin->addadmin)))
+                                    @if(in_array("read", explode(',',$subadmin->addadmin)))
                                     <a class="btn btn-success btn-xs"
                                         href="{{ url('admin/subadminedit/'.\Crypt::encrypt($user->id)) }}"><i
                                             class="zmdi zmdi-edit"></i> Edit </a> &nbsp;

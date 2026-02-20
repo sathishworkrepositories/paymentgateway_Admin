@@ -82,7 +82,9 @@ $atitle ="support";
 </div>
 <div class="col-md-1"><br>
 <input type="hidden" name="csrf" value="sfa">
+@if(in_array("write", explode(',',$AdminProfiledetails->support)))
 <input type="button" name="add" class="btn btn-success adminchat" id="chatbtn" value="Send" style="position: relative;right: 45px;" />
+@endif
 </div>
 </div>
 </form>

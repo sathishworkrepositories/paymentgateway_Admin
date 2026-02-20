@@ -11,7 +11,7 @@
     @endif
     @if ($error = Session::get('error'))
     <div class="alert alert-warning alert-block">
-      <button type="button" class="close" data-dismiss="alert">×</button> 
+      <button type="button" class="close" data-dismiss="alert">×</button>
       <strong>{{ $error }}</strong>
     </div>
     @endif
@@ -19,7 +19,7 @@
       <div class="card-body">
         <a href="{{ url('admin/subadminlist') }}"><i class="zmdi zmdi-arrow-left"></i> Back to Sub Admin List</a>
         <br ><br >
-        <div class="tab-container">                 
+        <div class="tab-container">
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
               <a class="nav-link active" href="{{ url('/admin/subadminedit/'.Crypt::encrypt($user->id)) }}" role="tab">Sub Admin Details</a>
@@ -41,10 +41,10 @@
             <div class="col-md-4">
               <div class="form-group ctmcheck {{ $errors->has('username') ? ' has-error' : '' }}">
                 <input type="text" name="username" class="form-control" value="{{ $user->name }}" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" required="" />
-                <i class="form-group__bar"></i> 
+                <i class="form-group__bar"></i>
               </div>
               @if ($errors->has('username'))
-              <span class="help-block" style="color:red;"> 
+              <span class="help-block" style="color:red;">
                 <strong>{{ $errors->first('username') }}</strong>
               </span>
               @endif
@@ -94,7 +94,7 @@
             </div>
           </div>
           <div class="checkmrkbox">
-            
+
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
@@ -103,9 +103,9 @@
               </div>
               <div class="col-md-2">
                 <div class="form-check">
-                  <label>   
-                    <input type="checkbox" name="dashboard[]" class="checkmark" value="kyc"  @if(in_array("kyc", explode(',',$profile->kyc))) checked @endif/>
-                    <span class="checkmark text-warning">KYC Sumbit</span>
+                  <label>
+                    <input type="checkbox" name="dashboard[]" class="checkmark" value="kyc"  @if(in_array("kyc", explode(',',$profile->dashboard))) checked @endif/>
+                    <span class="checkmark text-warning">KYC Submit</span>
                   </label>
                 </div>
               </div>
@@ -227,7 +227,7 @@
               <div class="col-md-3">
                 <div class="form-check">
                   <label>
-                    <input type="checkbox" name="merchant_sub[]" class="checkmark" value="write" @if(in_array("read", explode(',',$profile->merchant_sub))) checked @endif/>
+                    <input type="checkbox" name="merchant_sub[]" class="checkmark" value="write" @if(in_array("write", explode(',',$profile->merchant_sub))) checked @endif/>
                     <span class="checkmark"></span>
                   </label>
                 </div>
@@ -250,7 +250,7 @@
               <div class="col-md-3">
                 <div class="form-check">
                   <label>
-                    <input type="checkbox" name="adminwallet[]" class="checkmark" value="read" @if(in_array("read", explode(',',$profile->adminwallet))) checked @endif />
+                    {{-- <input type="checkbox" name="adminwallet[]" class="checkmark" value="read" @if(in_array("read", explode(',',$profile->adminwallet))) checked @endif /> --}}
                   </label>
                 </div>
               </div>
@@ -265,7 +265,7 @@
                 <div class="form-check">
                 </div>
               </div>
-            </div> 
+            </div>
 
             <div class="row">
               <div class="col-md-3">
@@ -288,7 +288,7 @@
                 <div class="form-check">
                 </div>
               </div>
-            </div> 
+            </div>
 
             <div class="row">
               <div class="col-md-3">
@@ -343,12 +343,12 @@
                 <div class="form-check">
                 </div>
               </div>
-            </div>           
+            </div>
 
               <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label>Coin Setting</label>
+                  <label>Tokens</label>
                 </div>
               </div>
               <div class="col-md-3">
@@ -369,10 +369,10 @@
               </div>
               <div class="col-md-3">
                 <div class="form-check">
-                  {{-- <label>
+                  <label>
                     <input type="checkbox" name="coinsetting[]" class="checkmark" value="delete" @if(in_array("delete", explode(',',$profile->coinsetting))) checked @endif />
                     <span class="checkmark"></span>
-                  </label> --}}
+                  </label>
                 </div>
               </div>
             </div>
@@ -403,8 +403,8 @@
                 <div class="form-check">
                 </div>
               </div>
-            </div> 
-           
+            </div>
+
 
                                     <div class="row">
                                       <div class="col-md-3">
@@ -465,7 +465,7 @@
                                       </div>
                                     </div>
 
-                                
+
 
 <div class="row">
   <div class="col-md-3">
@@ -523,7 +523,7 @@
   </div>
 </div>
 
-<div class="row">
+{{-- <div class="row">
   <div class="col-md-3">
     <div class="form-group">
       <label> KYC Settings</label>
@@ -531,10 +531,10 @@
   </div>
   <div class="col-md-3">
     <div class="form-check">
-      {{-- <label>
+      <label>
         <input type="checkbox" name="kyc_settings[]" class="checkmark" value="read" @if(in_array("read", explode(',',$profile->kyc_settings))) checked @endif/>
         <span class="checkmark"></span>
-      </label> --}}
+      </label>
     </div>
   </div>
   <div class="col-md-3">
@@ -549,7 +549,7 @@
     <div class="form-check">
     </div>
   </div>
-</div>
+</div> --}}
 
 <div class="row">
   <div class="col-md-3">
@@ -581,7 +581,7 @@
 </div>
 @if(in_array("write", explode(',',$AdminProfiledetails->addadmin)))
 <div class="row">
-  <div class="col-md-12">        
+  <div class="col-md-12">
     <div class="form-group">
       <button type="submit" name="edit" class="btn btn-light"><i class=""></i> Update</button>
     </div>
@@ -594,4 +594,4 @@
 </div>
 </div>
 </div>
-@endsection 
+@endsection

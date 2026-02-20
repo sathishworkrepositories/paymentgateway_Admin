@@ -15,7 +15,7 @@ $atitle ="user";
                 <div class="row">
                     <div class="col-md-3">
                         <input type="text" name="searchitem" class="form-control"
-                            placeholder="Search for Full Name or Email" value="" required>
+                            placeholder="Search for Full Name or Email" value="{{ $searchable ?? ""}}" required>
                     </div>
                     <div class="col-md-3">
                         <input type="submit" class="btn btn-success user_date" value="Search" />
@@ -52,7 +52,7 @@ $atitle ="user";
                             <th>Merchants Api</th>
                             <th>Email Verify</th>
                             <th>Kyc Verify</th>
-                            @if(in_array("delete", explode(',',$AdminProfiledetails->userlist)))
+                            @if(in_array("delete", explode(',',$AdminProfiledetails->userlist)) || in_array("write", explode(',',$AdminProfiledetails->userlist)))
                             <th colspan="3">Action</th>
                             @endif
                         </tr>
@@ -79,7 +79,7 @@ $atitle ="user";
                                 @endif</td>
                             <td>@if($user->kyc_verify == 1) Yes @elseif($user->kyc_verify == 2) Waiting @else No @endif
                             </td>
-                            @if(in_array("write", explode(',',$AdminProfiledetails->userlist)))
+                            @if(in_array("read", explode(',',$AdminProfiledetails->userlist)))
                             <td><a class="btn btn-success btn-xs"
                                     href="{{ url('/admin/users_edit/'.Crypt::encrypt($user->id)) }}"><i
                                         class="zmdi zmdi-edit"></i> View </a>

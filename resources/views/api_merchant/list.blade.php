@@ -12,7 +12,9 @@ $atitle ="category";
     <div class="row">
 
       <div class="col-md-12">
+        @if(in_array("write", explode(',',$AdminProfiledetails->merchant_api)))
         <a href="{{ url('/admin/addcat') }}" class="btn btn-info">Add Category</a>
+        @endif
         </br><br>
 
           @if(session('status'))
@@ -24,7 +26,7 @@ $atitle ="category";
           <div class="card-body">
 
             <div class="table-responsive">
-           
+
               @if(count($forum) > 0)
               <table class="table">
                 <thead>
@@ -32,12 +34,12 @@ $atitle ="category";
                     <th>S.No</th>
                     <th>Category</th>
                     <th>Date/time</th>
-                    @if(in_array("write", explode(',',$AdminProfiledetails->merchant_api)))
+                    @if(in_array("read", explode(',',$AdminProfiledetails->merchant_api)) || in_array("delete", explode(',',$AdminProfiledetails->merchant_api)))
                     <th>Action</th>
                     @endif
                   </tr>
                 </thead>
-                <tbody> 
+                <tbody>
                   @php
                 $limit=10;
                 $i=1;
@@ -53,18 +55,19 @@ $atitle ="category";
                     <td>{{ $i }}</td>
                     <td>{{ $value->category }}</td>
                     <td>{{ $value->created_at }}</td>
-                     @if(in_array("write", explode(',',$AdminProfiledetails->merchant_api)))
-                    <td><a href="{{ url('/admin/viewcategory', Crypt::encrypt($value->id)) }}" class="btn btn-info">View / Edit </a>
+                    <td>
+                     @if(in_array("read", explode(',',$AdminProfiledetails->merchant_api)))
+                    <a href="{{ url('/admin/viewcategory', Crypt::encrypt($value->id)) }}" class="btn btn-info">View / Edit </a>
                     @endif
                      @if(in_array("delete", explode(',',$AdminProfiledetails->merchant_api)))
                     <a href="{{ url('/admin/cat_delete/'.Crypt::encrypt($value->id)) }}" class="btn btn-info">Remove </a>
                     @endif
                     </td>
 
-               
-                    
+
+
                   </tr>
-                  @php $i++; @endphp  
+                  @php $i++; @endphp
                 @endforeach
                 </tbody>
               </table>

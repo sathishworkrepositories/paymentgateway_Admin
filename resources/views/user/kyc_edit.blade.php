@@ -442,9 +442,11 @@
                             <div class="col-md-12">
                                 <input type="hidden" name="kyc_id" value="{{ $kyc->id }}" />
                                 <input type="hidden" name="uid" value="{{ $kyc->uid }}" />
-                                <input type="submit" class="btn btn-md btn-warning" value="Update"> <br /><br />
-                                <p class='text text-info'>Note : Once you accept / reject kyc, You can't update the status
-                                    again!</p>
+                                @if(in_array("write", explode(',',$AdminProfiledetails->kyc)))
+                                    <input type="submit" class="btn btn-md btn-warning" value="Update"> <br /><br />
+                                    <p class='text text-info'>Note : Once you accept / reject kyc, You can't update the status
+                                        again!</p>
+                                @endif
                             </div>
                         </div>
                     </form>

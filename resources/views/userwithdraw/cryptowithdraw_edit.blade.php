@@ -101,6 +101,7 @@ $atitle ="withdraw";
 								</div>
 							</div>
 							@if($withdraw->status == 1)
+                            @if(in_array("write", explode(',',$AdminProfiledetails->withdrawhistory)))
 							<div class="col-md-4">
 								<div class="form-group">
 									<select class="form-control" name="status">
@@ -110,6 +111,7 @@ $atitle ="withdraw";
 									</select>
 								</div>
 							</div>
+                            @endif
 							@elseif($withdraw->status == 2)
 							<div class="col-md-4">
 								<div class="form-group">
@@ -123,13 +125,16 @@ $atitle ="withdraw";
 								</div>
 							</div>
 							@elseif($withdraw->status == 3)
+
 							<div class="col-md-4">
 								<div class="form-group">
 										Rejected
 								</div>
 							</div>
 							@endif
+                            @if(in_array("write", explode(',',$AdminProfiledetails->withdrawhistory)))
 							<p class="text text-info">NOTE : Once you update the status as "Approved / Rejected", you can't update status again!</p>
+                            @endif
 						</div>
 						@if($withdraw->status == 1)
 							<div class="form-group">

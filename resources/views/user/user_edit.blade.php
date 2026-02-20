@@ -63,13 +63,13 @@ $atitle ="user";
 								<div class="form-group">
 									<select class="form-control" name="country">
 										@if($userdetails->country == '')
-										<option value="">Select Country</option> 
+										<option value="">Select Country</option>
 										@foreach(country() as $countrys)
-										<option value="{{ $countrys->id }}" @if($countrys->id == $userdetails->country ) selected @endif>{{ $countrys->name }}</option> 
+										<option value="{{ $countrys->id }}" @if($countrys->id == $userdetails->country ) selected @endif>{{ $countrys->name }}</option>
 										@endforeach
 										@else
 										@foreach(country() as $countrys)
-										<option value="{{ $countrys->id }}" @if($countrys->id == $userdetails->country ) selected @endif>{{ $countrys->name }}</option> 
+										<option value="{{ $countrys->id }}" @if($countrys->id == $userdetails->country ) selected @endif>{{ $countrys->name }}</option>
 										@endforeach
 										@endif
 									</select>
@@ -101,14 +101,14 @@ $atitle ="user";
 										<select name="emailcheck" class="form-control" required>
 											<option value="1">Verified</option>
 											<option value="0">Not Verify</option>
-										</select>   
+										</select>
 										@else
 										<select name="emailcheck" class="form-control" required>
 											<option value="0">Not Verfied</option>
 											<option value="1">Verified</option>
-										</select> 
-										@endif 
-									</div>										
+										</select>
+										@endif
+									</div>
 								</div>
 							</div>
 						</div>
@@ -127,14 +127,16 @@ $atitle ="user";
 											<option value="google_otp"  @if($userdetails->twofa == 'google_otp' ) selected @endif>Google auth</option>
 											<option value="reset">Reset Google auth</option>
 											<option value="null">Reset twofa</option>
-										</select> 
+										</select>
 									</div>
 								</div>
 							</div>
 						</div>
+                        @if(in_array("write", explode(',',$AdminProfiledetails->userlist)))
 						<div class="form-group">
 							<button type="submit" name="edit" class="btn btn-light"><i class=""></i> Update</button>
 						</div>
+                        @endif
 					</form>
 					<div class="row">
 						<div class="col-md-3">

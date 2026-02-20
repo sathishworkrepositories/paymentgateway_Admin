@@ -61,7 +61,7 @@ $atitle ="coinlist";
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group">
@@ -115,9 +115,9 @@ $atitle ="coinlist";
 								</div>
 							</div>
 						</div>
-						
 
-						
+
+
 
 						<div class="row">
 							<div class="col-md-3">
@@ -271,11 +271,11 @@ $atitle ="coinlist";
 			</div>
 		</div> --}}
 
-		
 
 
 
-		
+
+
 
 
 
@@ -285,7 +285,7 @@ $atitle ="coinlist";
 				<!-- <div class="loding">Loading...</div> -->
 				<div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
 					<div class="form-group  has-feedback">
-						<div class="col-xs-12 inputGroupContainer"> <img src="{{ url('public/images/color/'. $commission['image']) }}" id="doc1" width="36px" height="36px" class="img-responsive kyc_img_cls" />
+						<div class="col-xs-12 inputGroupContainer"> <img src="{{ url('images/color/'. $commission['image']) }}" id="doc1" width="36px" height="36px" class="img-responsive kyc_img_cls" />
 							<label for="file-upload1" class="custom-file-upload"> <i class="fa fa-cloud-upload"></i> Upload Image </label>
 							<input id="file-upload1" class="kycimg2" onchange="ValidateSize(this)" name="image" type="file" style="display:none;">
 							<label id="file-name1"></label>
@@ -368,7 +368,9 @@ $atitle ="coinlist";
 
 
 	<div class="form-group">
-		<button type="submit" name="edit" class="btn btn-light"><i class=""></i> Update</button>
+        @if(in_array("write", explode(',',$AdminProfiledetails->coinsetting)))
+		    <button type="submit" name="edit" class="btn btn-light"><i class=""></i> Update</button>
+        @endif
 	</div>
 	</form>
 	</div>

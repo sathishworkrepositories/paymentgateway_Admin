@@ -26,7 +26,7 @@
 
         @if ($error = Session::get('error'))
         <div class="alert alert-warning alert-block">
-          <button type="button" class="close" data-dismiss="alert">×</button> 
+          <button type="button" class="close" data-dismiss="alert">×</button>
           <strong>{{ $error }}</strong>
         </div>
         @endif
@@ -41,7 +41,7 @@
             <div class="col-md-4">
               <div class="form-group ctmcheck {{ $errors->has('username') ? ' has-error' : '' }}">
                 <input type="text" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" name="username" class="form-control" id="username" value="{{ old('username') }}" required />
-                <i class="form-group__bar"></i> 
+                <i class="form-group__bar"></i>
               </div>
               @if ($errors->has('username'))
               <span class="help-block" style="color:red;">
@@ -82,7 +82,7 @@
               <span class="help-block" style="color:red;">
                 <strong>{{ $errors->first('password') }}</strong>
               </span>
-              @endif 
+              @endif
               </div>
             </div>
           </div>
@@ -106,7 +106,7 @@
           </div>
 
           <div class="row">
-            <div class="col-md-7"> 
+            <div class="col-md-7">
               <div class="form-group">
                 Notes :
                 Your password must contain at least 8 characters, one uppercase (ex: A, B, C, etc), one lowercase letter, one numeric digit (ex: 1, 2, 3, etc) and one special character (ex: @, #, $, etc).
@@ -154,7 +154,7 @@
                     <span class="checkmark  text-warning">Support Ticket</span>
                   </label>
                 </div>
-              </div>  
+              </div>
             </div>
             <div class="row mb-20 mt-20">
               <div class="col-md-3"></div>
@@ -239,7 +239,7 @@
                 </div>
               </div>
             </div>
-             
+
               <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
@@ -272,7 +272,7 @@
               </div>
             </div>
 
-            
+
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
@@ -299,7 +299,7 @@
 
                 </div>
               </div>
-            </div> 
+            </div>
 
              <div class="row">
               <div class="col-md-3">
@@ -324,12 +324,12 @@
 
                 </div>
               </div>
-            </div> 
+            </div>
 
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label>Coin Setting</label>
+                  <label>Tokens</label>
                 </div>
               </div>
               <div class="col-md-3">
@@ -353,8 +353,8 @@
                   </label> --}}
                 </div>
               </div>
-            </div> 
-          
+            </div>
+
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
@@ -416,7 +416,7 @@
 
                 </div>
               </div>
-            </div>         
+            </div>
 
             <div class="row">
               <div class="col-md-3">
@@ -445,8 +445,8 @@
 
                 </div>
               </div>
-            </div> 
-     
+            </div>
+
 <div class="row">
   <div class="col-md-3">
     <div class="form-group">
@@ -507,7 +507,7 @@
                           </div>
                         </div>
 
-                       
+
                          <div class="row">
                           <div class="col-md-3">
                             <div class="form-group">
@@ -569,7 +569,7 @@
     </div>
   </div>
 </div>
-<div class="row">
+{{-- <div class="row">
   <div class="col-md-3">
     <div class="form-group">
       <label> KYC Settings</label>
@@ -577,10 +577,10 @@
   </div>
   <div class="col-md-3">
     <div class="form-check">
-      {{-- <label>
+      <label>
         <input type="checkbox" name="kyc_settings[]" class="checkmark" value="read" />
         <span class="checkmark"></span>
-      </label> --}}
+      </label>
     </div>
   </div>
   <div class="col-md-3">
@@ -596,7 +596,7 @@
 
     </div>
   </div>
-</div>
+</div> --}}
 <div class="row">
   <div class="col-md-3">
     <div class="form-group">
@@ -629,7 +629,7 @@
 
 @if(in_array("write", explode(',',$AdminProfiledetails->addadmin)))
 <div class="row">
-  <div class="col-md-12">        
+  <div class="col-md-12">
     <div class="form-group">
       <button type="submit" name="edit" class="btn btn-light"><i class></i>Create Subadmin </button>
     </div>
@@ -643,4 +643,4 @@
 </div>
 </div>
 
-@endsection 
+@endsection

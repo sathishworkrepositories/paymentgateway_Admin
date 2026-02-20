@@ -24,13 +24,13 @@ $atitle ="feewallet";
                 <label>Select Withdraw Asset</label>
               </div>
             </div>
-            
-        <div class="col-md-3">          
+
+        <div class="col-md-3">
           <select onchange="location = this.value;" class="form-control custom-s text-left" >
 
               <option value="{{ url('admin/feewallet/'.$coin) }}"  disabled>{{ $coin }}</option>
 
-              @foreach($coinlists as $coinlist) 
+              @foreach($coinlists as $coinlist)
                 <option value="{{ url('admin/feewallet/'.$coinlist->source.'/'.$coinlist->type) }}" @if($coin == $coinlist->source && $coinlist->type == $type) selected @endif>{{ $coinlist->source }} ({{ ucfirst($coinlist->assertype) }})</option>
 
               @endforeach
@@ -44,8 +44,10 @@ $atitle ="feewallet";
                    <input type="hidden" name="pvk" value="{{ $pvk }}">
                    <input type="hidden" name="fromaddress" value="{{ $data->address }}"> -->
 
+          @if(in_array("write", explode(',',$AdminProfiledetails->adminwallet)))
 
                   <a href="{{ url('admin/feewalletedit'). '/'.Crypt::encrypt($data->id) }}" name="edit" class="btn btn-light"><i class=""></i> Edit</a>
+                @endif
                 <!-- </form> -->
               </div>
             </div>
@@ -55,7 +57,7 @@ $atitle ="feewallet";
           @if (Session::has('success'))
            <div class="alert alert-info">{{ Session::get('success') }}</div>
           @elseif (Session::has('error'))
-           <div class="alert alert-danger">{{ Session::get('error') }}</div> 
+           <div class="alert alert-danger">{{ Session::get('error') }}</div>
           @endif
         {{ csrf_field() }}
           <div class="row">
@@ -87,10 +89,10 @@ $atitle ="feewallet";
                 <i class="form-group__bar"></i> </div>
             </div>
           </div>
-               
-          
-          
-          
+
+
+
+
           <div class="row">
             <div class="col-md-3">
               <div class="form-group">
@@ -137,10 +139,11 @@ $atitle ="feewallet";
                 @endif
             </div>
           </div>
+          @if(in_array("write", explode(',',$AdminProfiledetails->adminwallet)))
            <div class="form-group">
               <button type="submit" name="edit" class="btn btn-light"><i class=""></i> Submit</button>
             </div>
-        </form>
+            @endif
         <hr>
         <h4>Transaction Histroy:-</h4>
         <hr>
@@ -157,7 +160,7 @@ $atitle ="feewallet";
               <th>Amount</th>
             </tr>
           </thead>
-          <tbody>         
+          <tbody>
             @if($depositList->count())
             @php
             $limit=10;
@@ -184,29 +187,29 @@ $atitle ="feewallet";
           $url = "https://bithomp.com/explorer/";
         }else{
           $url = "https://etherscan.io/tx/";
-        }       
-        
+        }
+
       @endphp
-      
+
       @foreach($depositList as $key => $histroy)
       <tr>
         <td>{{ $i }}</td>
         <td>{{ date('d-m-Y h:i:s', strtotime($histroy->created_at)) }}</td>
         <td>{{ $histroy['txtype'] !="" ? $histroy['txtype'] : '-' }}</td>
         <td><a href="{{ $url.$histroy['txid'] }}" target="_blank">{{ $histroy['txid'] !="" ? mb_strimwidth($histroy['txid'], 0, 20, "...") : '-' }}</a></td>
-        
+
         <td>{{ $histroy['to_addr'] !="" ? $histroy['to_addr'] : '-' }}</td>
         <td>{{ $histroy['from_addr'] !="" ? $histroy['from_addr'] : '-' }}</td>
         <td>{{ display_format($histroy->amount,8) }}</td>
-      </tr> 
+      </tr>
       @php $i++; @endphp
       @endforeach
-      @else 
+      @else
       <td colspan="7">  {{ 'No record found! ' }}</td>
       @endif
     </tbody>
   </table>
-  
+
   <div class="col-md-12 col-sm-12 col-xs-12 nopadding">
     <div class="pagination-tt clearfix">
       @if($depositList->count())
@@ -214,7 +217,7 @@ $atitle ="feewallet";
       @endif
     </div>
   </div>
-  
+
 </div>
       </div>
     </div>

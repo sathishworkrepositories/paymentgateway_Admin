@@ -27,7 +27,7 @@ $atitle ="category";
 					<form method="post" action="{{ url('admin/updatecategory') }}" autocomplete="off">
 						{{ csrf_field() }}
 						<input type="hidden" value="{{ $forum->id }}" name="id">
-				
+
 
 						<div class="row">
 							<div class="col-md-3">
@@ -47,9 +47,11 @@ $atitle ="category";
 							</div>
 						</div>
 
-			
+
 						<div class="form-group">
+                            @if(in_array("write", explode(',',$AdminProfiledetails->merchant_api)))
 							<button type="submit" name="edit" class="btn btn-light"><i class=""></i> Update</button>
+                            @endif
 						</div>
 					</form>
 				</div>

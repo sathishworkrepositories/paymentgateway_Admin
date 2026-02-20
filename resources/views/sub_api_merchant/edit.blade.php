@@ -27,7 +27,7 @@ $atitle ="subcategory";
 					<form method="post" action="{{ url('admin/subupdatecategory') }}" autocomplete="off">
 						{{ csrf_field() }}
 						<input type="hidden" value="{{ $forum->id }}" name="id">
-				
+
 
 						<div class="row">
 							<div class="col-md-3">
@@ -37,7 +37,7 @@ $atitle ="subcategory";
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-				
+
 									<select name="category" class="form-control">
 									@foreach($category as $value)
 									<option value="{{ $value->id }}" <?php if($forum->cat_id == $value->id) echo "selected"; ?>>{{ $value->category }}</option>
@@ -96,10 +96,11 @@ $atitle ="subcategory";
 						</div>
 
 
-			
+                        @if(in_array("write", explode(',',$AdminProfiledetails->merchant_sub)))
 						<div class="form-group">
 							<button type="submit" name="edit" class="btn btn-light"><i class=""></i> Update</button>
 						</div>
+                        @endif
 					</form>
 				</div>
 			</div>

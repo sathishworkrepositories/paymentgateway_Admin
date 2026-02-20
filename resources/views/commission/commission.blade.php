@@ -15,7 +15,7 @@ $atitle ="commission";
           <div class="card-body">
           <h4 class="card-title">Commission Settings </h4>
             <div class="table-responsive">
-           
+
               @if(count($commissions))
               <table class="table">
                 <thead>
@@ -25,10 +25,12 @@ $atitle ="commission";
                     <th>Name</th>
                     <th>Withdraw %</th>
                     <th>Net Fee</th>
+                    @if(in_array("read", explode(',',$AdminProfiledetails->commissionsetting)))
                     <th>Status</th>
+                    @endif
                   </tr>
                 </thead>
-                <tbody> 
+                <tbody>
                 @foreach($commissions as $key => $commission)
                   <tr>
                     <td>{{ $key+1 }}</td>
@@ -36,8 +38,9 @@ $atitle ="commission";
                     <td>{{ $commission->coinname }}</td>
                     <td>{{ $commission->withdraw }}</td>
                     <td>{{ number_format($commission->netfee, 8) }}</td>
+                    @if(in_array("read", explode(',',$AdminProfiledetails->commissionsetting)))
                     <td><a href="{{ url('/admin/commissionsettings', Crypt::encrypt($commission->id)) }}" class="btn btn-info">View / Edit</a></td>
-                    
+                    @endif
                   </tr>
                 @endforeach
                 </tbody>

@@ -45,7 +45,7 @@ $atitle ="cms";
                   <input type="text" name="description[]" class="form-control" value="{{ $new->desc }}" >
                   <i class="form-group__bar"></i> </div>
               </div>
-            </div> 
+            </div>
           @endforeach
           <div class="row">
             <div class="col-md-3">
@@ -53,9 +53,11 @@ $atitle ="cms";
                 <label>&nbsp;</label>
               </div>
             </div>
+            @if(in_array("write", explode(',',$AdminProfiledetails->cms_settings)))
             <div class="col-md-4">
                <button class="btn btn-md btn-warning" type="submit"> Update</button><br /><br />
             </div>
+            @endif
           </div>
         </form>
       </div>
@@ -63,4 +65,3 @@ $atitle ="cms";
   </div>
 </section>
   @endsection
-  

@@ -1,7 +1,7 @@
 @extends('layouts.header')
 @section('title', 'Add sub- Admin')
 @section('content')
- 
+
 <section class="content">
 <div class="content__inner">
   <header class="content__title">
@@ -13,18 +13,18 @@
 
     @if ($error = Session::get('error'))
         <div class="alert alert-warning alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button> 
+        <button type="button" class="close" data-dismiss="alert">×</button>
         <strong>{{ $error }}</strong>
         </div>
     @endif
   <div class="card">
-      
+
   <div class="card-body">
 
 
       <a href="{{ url('admin/subadminlist') }}"><i class="zmdi zmdi-arrow-left"></i> Back to Sub Admin List</a>
           <br ><br >
-            <div class="tab-container">                 
+            <div class="tab-container">
             <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
             <a class="nav-link" href="{{ url('/admin/subadminedit/'.Crypt::encrypt($user->id)) }}" role="tab">Sub Admin Details</a>
@@ -36,7 +36,7 @@
 
           <br>
           </div>
-  
+
 
   <form method="post" action="{{ url('admin/subadminpassupdate/'.$id) }}" autocomplete="off">
     {{ csrf_field() }}
@@ -49,9 +49,9 @@
       <div class="col-md-4">
         <div class="form-group ctmcheck {{ $errors->has('username') ? ' has-error' : '' }}">
           <input type="text" name="username" class="form-control" value="{{ $user->name }}" readonly="readonly" />
-          <i class="form-group__bar"></i> 
+          <i class="form-group__bar"></i>
            @if ($errors->has('username'))
-              <span class="help-block" style="color:red;"> 
+              <span class="help-block" style="color:red;">
                   <strong>{{ $errors->first('username') }}</strong>
               </span>
           @endif
@@ -90,7 +90,7 @@
               <span class="help-block" style="color:red;">
                   <strong>{{ $errors->first('password') }}</strong>
               </span>
-          @endif 
+          @endif
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@
     </div>
 
 <div class="row">
-<div class="col-md-7"> 
+<div class="col-md-7">
 <br>
 <div class="form-group">
 Notes :
@@ -122,19 +122,19 @@ Your password must contain at least 8 characters, one uppercase (ex: A, B, C, et
 </div>
 </div>
 </div>
-@if(in_array("write", explode(',',$AdminProfiledetails->addadmin)))
+@if(in_array("write", explode(',',$AdminProfiledetails->security)))
     <div class="row">
-      <div class="col-md-12">        
+      <div class="col-md-12">
         <div class="form-group">
           <button type="submit" name="edit" class="btn btn-light"><i class=""></i> Update</button>
         </div>
       </div>
     </div>
-    @endif
+@endif
     </div>
     </div>
   </form>
 </div>
 </div>
 </div>
-@endsection 
+@endsection

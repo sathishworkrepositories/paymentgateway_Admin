@@ -56,10 +56,12 @@ $atitle ="cms";
                             </div>
                         </div>
                     </div>
+                    @if(in_array("write", explode(',',$AdminProfiledetails->cms_settings)))
                     <div class="form-group">
                         <button type="submit" name="update_content" class="btn btn-light"><i class=""></i> Update
                             Content</button>
                     </div>
+                    @endif
                 </form>
             </div>
         </div>
