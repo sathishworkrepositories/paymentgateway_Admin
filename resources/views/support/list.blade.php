@@ -19,22 +19,26 @@ $atitle ="support";
             <th>Ticket Id</th>
             <th>Full name</th>
             <th>Subject</th>
+            @if(in_array("read", explode(',',$AdminProfiledetails->support)))
             <th>Action</th>
+            @endif
           </tr>
         </thead>
         <tbody>
           @foreach($tickets as $ticket)
           <tr>
-            <td>{{ date('d-m-Y H:i:s', strtotime($ticket->created_at)) }}</td>
-            <td>{{ $ticket->ticket_id }}</td>
-            <td>{{ $ticket->name }}</td>
-            <td>{{ $ticket->subject }}</td>
+            <td>{{ date('d-m-Y H:i:s', strtotime($ticket->created_at)) ?? ""}}</td>
+            <td>{{ $ticket->ticket_id ?? ""}}</td>
+            <td>{{ $ticket->name ?? ""}}</td>
+            <td>{{ $ticket->subject ?? ""}}</td>
+            @if(in_array("read", explode(',',$AdminProfiledetails->support)))
             <td><a class="btn btn-primary btn-xs"  href="{{ url('/admin/reply/'.Crypt::encrypt($ticket->id)) }}" class="btn btn-info">Chat</a></td>
+            @endif
           </tr>
           @endforeach
         </tbody>
       </table>
-      @else 
+      @else
       Yet no one raise support ticket
       @endif
     </div>

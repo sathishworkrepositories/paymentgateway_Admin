@@ -37,7 +37,9 @@ public function userDestroy($id) {
 $uid = \Crypt::decrypt($id);
 $user = User::find($uid);
 if($user) {
+
 $data = User::DeleteAll($uid);
+
 $check =UserBtcAddress::getAddress($uid);
 if($check) {
 $data = UserBtcAddress::addressDelete($uid);
@@ -51,7 +53,7 @@ return Redirect('admin/users')->with('error','Invalid request!');
 public function edit($id) {
 $user_id = \Crypt::decrypt($id);
 if($user_id) {
-$user = User::find($user_id); 
+$user = User::find($user_id);
 $uid =$id;
 return view('user.user_edit', ['userdetails' => $user,'phone' => $user->phone_no, 'address' => $user->address,'uid' => $uid,'country' => $user->country]);
 }
@@ -60,8 +62,8 @@ return view('user.user_edit', ['userdetails' => $user,'phone' => $user->phone_no
 public function Profile($id) {
 $user_id = \Crypt::decrypt($id);
 if($user_id) {
-$user = User::find($user_id); 
-$profile = UsersProfile::getData($user_id); 
+$user = User::find($user_id);
+$profile = UsersProfile::getData($user_id);
 $uid =$id;
 return view('user.user_profile', ['userdetails' => $user,'country' => $user->country,'profile' => $profile]);
 }
@@ -70,8 +72,8 @@ return view('user.user_profile', ['userdetails' => $user,'country' => $user->cou
 public function MerchantDetails($id) {
 $user_id = \Crypt::decrypt($id);
 if($user_id) {
-$user = User::find($user_id); 
-$merchant = MerchantSetting::GetData($user_id); 
+$user = User::find($user_id);
+$merchant = MerchantSetting::GetData($user_id);
 $uid =$id;
 return view('user.user_account', ['userdetails' => $user,'merchant' => $merchant]);
 }
@@ -81,7 +83,7 @@ public function userdeposit($id) {
 $user_id = \Crypt::decrypt($id);
 if($user_id) {
 $depositList = Transaction::depsoitList_user($user_id);
-$user = User::find($user_id); 
+$user = User::find($user_id);
 $uid =$id;
 return view('user.user_deposit', ['userdetails' => $user,'uid' => $uid,'depositList' => $depositList]);
 }
@@ -91,7 +93,7 @@ public function userfiatdeposit($id) {
 $user_id = \Crypt::decrypt($id);
 if($user_id) {
 $fiatdepositList = CurrencyDeposit::fiatdepsoitList_user($user_id);
-$user = User::find($user_id); 
+$user = User::find($user_id);
 $uid =$id;
 return view('user.user_fiat_deposit', ['userdetails' => $user,'uid' => $uid,'deposit' => $fiatdepositList]);
 }
@@ -107,9 +109,9 @@ $depositUpdate = CurrencyDeposit::statusUpdate($request);
 return back()->with('success','Deposit Updated Successfully');
 }
 
-public function UserWithdrawList($id) {   
+public function UserWithdrawList($id) {
 $user_id = \Crypt::decrypt($id);
-$user = User::find($user_id);   
+$user = User::find($user_id);
 $btcWithdraw = UsersWithdraw::userhistroy($user_id);
 return view('user.crypto_withdraw', ['userdetails' => $user,'uid' => $user_id,'transaction' => $btcWithdraw]);
 }
@@ -124,18 +126,18 @@ return view('user.cryptowithdraw_edit',[
 public function updateCryptoWithdraw(Request $request) {
 $withdraw = UsersWithdraw::withdrawUpdate($request);
 return back()->with('status',$withdraw);
-}    
+}
 
 public function user_fiat_withdraw($id) {
 $user_id = \Crypt::decrypt($id);
-$user = User::find($user_id);   
+$user = User::find($user_id);
 $crypto_trasnaction = CurrencyWithdraw::user_histroy_fiat($user_id);
 return view('user.fiat_withdraw', ['userdetails' => $user,'uid' => $user_id,'transaction' => $crypto_trasnaction]);
 }
 
 public function fiat_withdraw_edit($id) {
 $crypto_trasnaction = CurrencyWithdraw::edit(\Crypt::decrypt($id));
-return view('user.withdraw_edit', ['withdraw' => $crypto_trasnaction]); 
+return view('user.withdraw_edit', ['withdraw' => $crypto_trasnaction]);
 }
 
 public function fiat_withdraw_update(Request $request) {
@@ -143,7 +145,7 @@ $crypto_trasnaction = CurrencyWithdraw::withdrawUpdate($request);
 return back()->with('status','Withdraw Updated Successfully');
 }
 
-public function update(Request $request) { 
+public function update(Request $request) {
 if($request->fname !="" && $request->phone!="" && $request->emailcheck !="") {
 $user = User::userUpdate($request);
 if($user) {
@@ -192,7 +194,7 @@ return Redirect('admin/users_wallet/'.$uid);
 public function usersearch(Request $request) {
 $q = $request->searchitem;
 $details = User::user_name_search(1, $q);
-return view('user.users')->with('details',$details);
+return view('user.users')->with(['details' => $details,'searchable' => $q]);
 }
 
 public function OverallTransaction($id,$coin) {
@@ -203,7 +205,7 @@ if($coin == 'all') {
 $histroys = OverallTransaction::where('uid',$user_id)->orderBy('id','Desc')->paginate(20);
 } else {
 $histroys = OverallTransaction::where(['uid' => $user_id,'coin' =>$coin])->orderBy('id','Desc')->paginate(20);
-} 
+}
 $coins = Commission::on('mysql2')->get();
 return view('user.overalltransaction', ['userdetails' => $user,'uid' => $user_id,'histroys' => $histroys,'coins' => $coins,'type' => $coin]);
 }
@@ -212,8 +214,8 @@ return view('user.overalltransaction', ['userdetails' => $user,'uid' => $user_id
 public function UserCommissionSetting($id) {
 $user_id = \Crypt::decrypt($id);
 if($user_id) {
-$user = User::find($user_id); 
-$data = UserCommission::index($user_id); 
+$user = User::find($user_id);
+$data = UserCommission::index($user_id);
 $uid =$id;
 return view('user.usercommissionsetting', ['userdetails' => $user,'commissions' => $data]);
 }
@@ -222,7 +224,7 @@ return view('user.usercommissionsetting', ['userdetails' => $user,'commissions' 
 public function CreateUserCommission($uid) {
 $uid = \Crypt::decrypt($uid);
 if($uid) {
-$user = User::find($uid); 
+$user = User::find($uid);
 $data = UserCommission::createComm($uid);
 $encuid = \Crypt::encrypt($uid);
 \Session::flash('updated_status', 'Commission Created Successfully!.');
@@ -235,7 +237,7 @@ return Redirect('admin/users');
 
 public function EditCommissionSettings($id) {
 $commission = UserCommission::edit(Crypt::decrypt($id));
-$user = User::find($commission->uid); 
+$user = User::find($commission->uid);
 return view('user.editusercommission',['commission'=>$commission,'userdetails' => $user]);
 }
 

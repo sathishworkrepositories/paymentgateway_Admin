@@ -29,9 +29,9 @@ $atitle ="user";
 									<th>Coin Name</th>
 									<th>Sender</th>
 									<th>Recipient</th>
-									<th>Amount</th> 
-									<th>Fee</th> 
-									<th>Status</th> 
+									<th>Amount</th>
+									<th>Fee</th>
+									<th>Status</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -45,13 +45,13 @@ $atitle ="user";
 									<td>{{ number_format($transactions->request_amount, 8, '.', '') }}</td>
 									<td>{{ number_format($transactions->admin_fee, 8, '.', '') }}</td>
 									<td>
-										@if($transactions->status == 0) 
-										<a class="btn btn-success btn-xs" href="{{ url('/admin/user_crypto_withdraw_edit/'.$transactions->id) }}"><i class="zmdi zmdi-edit"></i> View </a> 
-										@elseif($transactions->status == 2)  Cancelled
-										@elseif($transactions->status == 1) 
-										Success
+										@if($transactions->status == 0)
+										<a class="btn btn-success btn-xs" href="{{ url('/admin/user_crypto_withdraw_edit/'.$transactions->id) }}"><i class="zmdi zmdi-edit"></i> View </a>
+										@elseif($transactions->status == 2)  Success
+										@elseif($transactions->status == 3)
+										Cancelled
 										@endif
-									</td> 
+									</td>
 								</tr>
 								@endforeach
 								@else

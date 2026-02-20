@@ -21,7 +21,9 @@ $atitle ="deposit";
 							<th>Deposited Amount ({{ $coin }})</th>
 							<th>Credit Amount ({{ $coin }})</th>
 							<th>Status</th>
+                            @if(in_array("read", explode(',',$AdminProfiledetails->deposithistory)))
 							<th>Action</th>
+                            @endif
 						</tr>
 					</thead>
 					<tbody>
@@ -33,24 +35,26 @@ $atitle ="deposit";
 							<td>{{ number_format($transactions->amount, 2, '.', '') }}</td>
 							<td>{{ number_format($transactions->credit_amount, 2, '.', '') }}</td>
 							<td>
-							    @if($transactions->status == 0) 
+							    @if($transactions->status == 0)
 							    	Waiting for admin confirmation
-                                @elseif($transactions->status == 2) 	
+                                @elseif($transactions->status == 2)
                                 	Rejected by admin
-                                @elseif($transactions->status == 3) 
+                                @elseif($transactions->status == 3)
                                 	Cancelled by user
-                                @else 
-                                	Approved by admin 
+                                @else
+                                	Approved by admin
                                 @endif
 							</td>
+                            @if(in_array("read", explode(',',$AdminProfiledetails->deposithistory)))
 							<td>
-								@if($transactions->status == 0) 
+								@if($transactions->status == 0)
 									<a class="btn btn-success btn-xs" href="{{ url('/admin/fiatdeposit_edit/'.Crypt::encrypt($transactions->id)) }}"><i class="zmdi zmdi-edit"></i> View </a>
-                                @else 
+                                @else
                                 	--
-                                @endif 
+                                @endif
 
 							</td>
+                            @endif
 						</tr>
 					@endforeach
 					@else

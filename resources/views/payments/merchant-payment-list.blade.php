@@ -50,7 +50,9 @@ $atitle ="merchanthistroy";
                             <th>Coin</th>
                             <th>Amount</th>
                             <th>Status</th>
+                            @if(in_array("read", explode(',',$AdminProfiledetails->pay_his)))
                             <th colspan="2">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -76,8 +78,10 @@ $atitle ="merchanthistroy";
                             <td>{{ $data->amount1 }}</td>
                             <td>{{ $data->status_text, 0, 20, "..." ?? ''}}</td>
                             <td>{{ $data->status }}</td>
+                            @if(in_array("read", explode(',',$AdminProfiledetails->pay_his)))
                             <td><a href="{{ url('/admin/merchantview/'.Crypt::encrypt($data->id)) }}">View Details</a>
                             </td>
+                            @endif
                         </tr>
                         @php $i ++; @endphp
                         @empty

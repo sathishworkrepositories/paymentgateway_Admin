@@ -8,7 +8,7 @@ $atitle ="commission";
 	<header class="content__title">
 		<h1>Commission Settings</h1>
 	</header>
-	
+
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card">
@@ -35,7 +35,7 @@ $atitle ="commission";
 								</div>
 							</div>
 						</div>
-					
+
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group">
@@ -106,15 +106,15 @@ $atitle ="commission";
 					                    </span>
 					                @endif
 								</div>
-							</div> 
+							</div>
 						</div>
-					<input type="hidden" name="card_com" value="{{$commission->card_com}}" required="required"> 
-				
+					<input type="hidden" name="card_com" value="{{$commission->card_com}}" required="required">
+
 						<input type="hidden" name="type" value="{{$commission->type}}" required="required">
-								
+
 									<input type="hidden" name="tradecom" class="form-control"  step="0.01" min="0" max="10000000" value="{{ $commission->tradecom != NULL ? $commission->tradecom : '0' }}"/>
-						
-			
+
+
 
 							<div class="row">
 							<div class="col-md-3">
@@ -208,11 +208,12 @@ $atitle ="commission";
 							</div>
 						</div>
 
-											
 
+                        @if(in_array("write", explode(',',$AdminProfiledetails->commissionsetting)))
 						<div class="form-group">
 							<button type="submit" name="edit" class="btn btn-light"><i class=""></i> Update</button>
 						</div>
+                        @endif
 					</form>
 				</div>
 			</div>

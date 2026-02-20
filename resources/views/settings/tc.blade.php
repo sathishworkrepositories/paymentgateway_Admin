@@ -15,7 +15,7 @@
 	    </div>
 	@endif
 	<div class="card">
-		<div class="card-body"> 
+		<div class="card-body">
 			<form method="post" autocomplete="off" action="{{ url('admin/update_terms') }}">
 			    {{ csrf_field() }}
 				<div class="row">
@@ -30,9 +30,11 @@
 						</div>
 					</div>
 				</div>
+                @if(in_array("write", explode(',',$AdminProfiledetails->cms_settings)))
 				<div class="form-group">
 					<button type="submit" name="update_content" class="btn btn-light"><i class=""></i> Update Content</button>
 				</div>
+                @endif
 			</form>
 		</div>
 	</div>

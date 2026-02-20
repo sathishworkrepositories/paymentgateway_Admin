@@ -26,9 +26,11 @@ $atitle ="withdraw";
 							<th>Full Name</th>
 							<th>Sender</th>
 							<th>Recipient</th>
-							<th>Amount</th> 
-							<th>Fee</th> 
-							<th>Status</th> 
+							<th>Amount</th>
+							<th>Fee</th>
+
+							<th>Status</th>
+
 						</tr>
 					</thead>
 					<tbody>
@@ -42,13 +44,17 @@ $atitle ="withdraw";
 							<td>{{ number_format($transactions->request_amount, 8, '.', '') }}</td>
 							<td>{{ number_format($transactions->admin_fee, 8, '.', '') }}</td>
 							<td>
-							    @if($transactions->status == 1) 
-							     <a class="btn btn-success btn-xs" href="{{ url('/admin/crypto_withdraw_edit/'.$transactions->id) }}"><i class="zmdi zmdi-edit"></i> View </a> 
-                                @elseif($transactions->status == 0)  Waiting email confirmation
-                                @elseif($transactions->status == 2) 
+							    @if($transactions->status == 1)
+                                    @if(in_array("read", explode(',',$AdminProfiledetails->withdrawhistory)))
+                                    <a class="btn btn-success btn-xs" href="{{ url('/admin/crypto_withdraw_edit/'.$transactions->id) }}"><i class="zmdi zmdi-edit"></i> View </a>
+                                    @endif
+                                @elseif($transactions->status == 0)
+                                 Waiting email confirmation
+                                @elseif($transactions->status == 2)
                                  Sent/complete.
                                 @endif
-							</td> 
+
+							</td>
 						</tr>
 					@endforeach
 					@else

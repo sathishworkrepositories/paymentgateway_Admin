@@ -18,9 +18,9 @@ class SubAdminController extends Controller
 {
     use GoogleAuthenticator;
     public function __construct()
-    {       
+    {
        $this->middleware(['admin']);
-          
+
     }
     /**
      * Display a listing of the resource.
@@ -32,10 +32,10 @@ class SubAdminController extends Controller
 
       $adminid = Session::get('adminId');
 
-       $subadmin = AdminProfile::adminprofile(); 
+       $subadmin = AdminProfile::adminprofile();
         if(!in_array("read", explode(',',$subadmin->addadmin))){
-          return redirect('admin/dashboard');  
-        }   
+          return redirect('admin/dashboard');
+        }
       $subadmin = AdminProfile::where(['user_id' => $adminid])->first();
       $list = Admin::where('type',2)->orderBy('id','desc')->paginate(25);
       return view('adminaccount.subadminlist',['admins' => $list,'subadmin' =>  $subadmin]);
@@ -44,16 +44,16 @@ class SubAdminController extends Controller
 
 
  public function usersubadminsearch(Request $request)
-    {  
-          
+    {
+
          $q = $request->searchitem;
 
 
-            $adminid = Session::get('adminId'); 
-            $subadmin = AdminProfile::adminprofile(); 
+            $adminid = Session::get('adminId');
+            $subadmin = AdminProfile::adminprofile();
             if(!in_array("read", explode(',',$subadmin->addadmin))){
-            return redirect('admin/dashboard');  
-            }     
+            return redirect('admin/dashboard');
+            }
             $limit=25;
             if(isset($_GET['page'])){
             $page = $_GET['page'];
@@ -80,11 +80,11 @@ class SubAdminController extends Controller
      */
     public function create()
     {
-       $adminid = Session::get('adminId'); 
-       $subadmin = AdminProfile::adminprofile(); 
+       $adminid = Session::get('adminId');
+       $subadmin = AdminProfile::adminprofile();
        if(!in_array("read", explode(',',$subadmin->addadmin)) || !in_array("write", explode(',',$subadmin->addadmin)) ){
-          return redirect('admin/dashboard');  
-       }  
+          return redirect('admin/dashboard');
+       }
        return view('adminaccount.subadminadd');
     }
 
@@ -95,7 +95,7 @@ class SubAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $validator = Validator::make($request->all(), [
             'username' => 'required|regex:/^[\pL\s\-]+$/u|max:30',
             'email' => 'required|string|email|max:255|unique:admins',
@@ -105,22 +105,22 @@ class SubAdminController extends Controller
         [
          'username' => 'User Name is required'
         ]);
-       
-        
+
+
         if ($validator->fails()) {
            // dd($validator);
             return redirect('admin/subadminform')
                         ->withErrors($validator)
                         ->withInput();
-        }else{ 
-            
+        }else{
+
             $password = bcrypt($request->get('password'));
             $admin = new Admin;
             $admin->name = $request->get('username');
             $admin->username = $request->get('username');
-            
+
             if(ctype_space($request->get('username'))){
-              return back()->with('error','Username not accept space!!!');  
+              return back()->with('error','Username not accept space!!!');
             }
             else{
 
@@ -138,7 +138,7 @@ class SubAdminController extends Controller
             // dd($admin);
             $admin->save();
             $adminid = $admin->id;
-            
+
 
             $AdminProfile = new AdminProfile;
             $AdminProfile->user_id = $adminid;
@@ -157,13 +157,13 @@ class SubAdminController extends Controller
             $AdminProfile->security =implode(',',(array) $request->get('security'));
             $AdminProfile->addadmin = implode(',', (array) $request->get('addadmin'));
             $AdminProfile->support = implode(',', (array) $request->get('support'));
-            $AdminProfile->kyc_settings = implode(',', (array) $request->get('kyc_settings'));
+            // $AdminProfile->kyc_settings = implode(',', (array) $request->get('kyc_settings'));
             $AdminProfile->cms_settings = implode(',', (array) $request->get('cms'));
-              
+
             $AdminProfile->save();
 
             // dd($AdminProfile);
-           
+
             return redirect('admin/subadminlist')->with('success','Subadmin has added successfully!');
            }
         }
@@ -179,65 +179,67 @@ class SubAdminController extends Controller
      */
     public function show($id)
     {
-        $subadmin = AdminProfile::adminprofile(); 
-        // dd($subadmin);
-        if(!in_array("read", explode(',',$subadmin->addadmin))  || !in_array("write", explode(',',$subadmin->addadmin)) ){
-          return redirect('admin/dashboard');  
-        }     
-        
-        $userId = \Crypt::decrypt($id);
-        $user = Admin::where('id', $userId)->first(); 
 
-        //  dd($user);  
-       
+        $subadmin = AdminProfile::adminprofile();
+        // dd($subadmin);
+        if(!in_array("read", explode(',',$subadmin->addadmin)) ){
+          return redirect('admin/dashboard')->with('error','No access for the user');
+        }
+
+        $userId = \Crypt::decrypt($id);
+        $user = Admin::where('id', $userId)->first();
+
+        //  dd($user);
+
         if(empty($user)){
-           return redirect('admin/subadminlist'); 
+           return redirect('admin/subadminlist');
         }
         $profile = AdminProfile::where('user_id', $userId)->first();
         return view('adminaccount.subadminedit',['user' => $user,'profile' => $profile,'id' => $id]);
     }
 
-  
+
 
     public function update(Request $request, $id)
-    { 
+    {
         $userId = \Crypt::decrypt($id);
-        $user = Admin::where('id', $userId)->first(); 
-       
+        $user = Admin::where('id', $userId)->first();
+
         if(empty($user)){
-           return redirect('admin/subadminlist'); 
+           return redirect('admin/subadminlist');
         }
-        
+
         if($request->get('password') !='' ) {
-          
+
            $this->validate($request, [
             'username' => 'required|regex:/^[\pL\s\-]+$/u|max:30',
             'email' => 'required|string|email|max:255',
             'password' =>'required|min:8|max:16|required_with:confirmpassword|same:confirmpassword|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
             'confirmpassword' => 'min:8|max:16|same:password',
             ],
-            [ 
-               'username.required' => 'User Name is required', 
-            ]);    
+            [
+               'username.required' => 'User Name is required',
+            ]);
         }
         else{
              $this->validate($request, [
             'username' => 'required|regex:/^[\pL\s\-]+$/u|max:30',
             'email' => 'required|string|email|max:255',
             ],
-            [ 
-               'username.required' => 'User Name is required', 
-            ]);  
+            [
+               'username.required' => 'User Name is required',
+            ]);
         }
-        
+
         $userId = \Crypt::decrypt($id);
-        $user = Admin::where('id', $userId)->first(); 
-          
+        $user = Admin::where('id', $userId)->first();
+
         if($user){
            $AdminProfile = AdminProfile::where('user_id', $userId)->first();
            $name = $request->get('username');
            $email = $request->get('email');
            $exits = Admin::whereNotIn('id', [1, $userId])->where('email',  $email)->count();
+
            if($exits > 0){
             return Redirect::back()->withErrors(['msg', 'Admin Email Already exits.Please try again !']);
            }else{
@@ -262,16 +264,16 @@ class SubAdminController extends Controller
                 $AdminProfile->security =implode(',',(array) $request->get('security'));
                 $AdminProfile->addadmin = implode(',', (array) $request->get('addadmin'));
                 $AdminProfile->support = implode(',', (array) $request->get('support'));
-                $AdminProfile->kyc_settings = implode(',', (array) $request->get('kyc_settings'));
+                // $AdminProfile->kyc_settings = implode(',', (array) $request->get('kyc_settings'));
                 $AdminProfile->cms_settings = implode(',', (array) $request->get('cms'));
-           
+
                 $AdminProfile->save();
 
                 return Redirect::back()->with('message', 'Updated successfully!');
- 
+
            }
-           
-           }         
+
+           }
     }
 
     /**
@@ -281,27 +283,27 @@ class SubAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {      
+    {
         $userId = \Crypt::decrypt($id);
         $user = Admin::where('id', $userId)->first();
         if($user){
             $user = Admin::where('id', $userId)->delete();
-            Session::flash('success', "Deleted successfully!");  
-            
+            Session::flash('success', "Deleted successfully!");
+
         }
         else{
-            Session::flash('error', "Some thing went wrong please try again later!"); 
-       } 
+            Session::flash('error', "Some thing went wrong please try again later!");
+       }
         return Redirect::back();
     }
 
 public function subadminsearch(Request $request)
     {
-       $adminid = Session::get('adminId'); 
-       $subadmin = AdminProfile::adminprofile(); 
+       $adminid = Session::get('adminId');
+       $subadmin = AdminProfile::adminprofile();
         if(!in_array("read", explode(',',$subadmin->addadmin))){
-          return redirect('admin/dashboard');  
-        }     
+          return redirect('admin/dashboard');
+        }
        $limit=25;
       if(isset($_GET['page'])){
         $page = $_GET['page'];
@@ -325,19 +327,19 @@ public function subadminsearch(Request $request)
 
     return view('adminaccount.subadminlist',['admins' => $list,'i' => $i,'subadmin' =>  $subadmin]);
     }
- 
+
 	public function subadminchangepassword($id)
     {
-        $subadmin = AdminProfile::adminprofile(); 
-        if(!in_array("read", explode(',',$subadmin->addadmin))  || !in_array("write", explode(',',$subadmin->addadmin)) ){
-          return redirect('admin/dashboard');  
-        }     
-        
+        $subadmin = AdminProfile::adminprofile();
+        if(!in_array("read", explode(',',$subadmin->addadmin))){
+          return redirect('admin/dashboard');
+        }
+
         $userId = \Crypt::decrypt($id);
-        $user = Admin::where('id', $userId)->first(); 
-       
+        $user = Admin::where('id', $userId)->first();
+
         if(empty($user)){
-           return redirect('admin/subadminlist'); 
+           return redirect('admin/subadminlist');
         }
         $profile = AdminProfile::where('user_id', $userId)->first();
         return view('adminaccount.subadminpassedit',['user' => $user,'profile' => $profile,'id' => $id]);
@@ -346,27 +348,27 @@ public function subadminsearch(Request $request)
 
 
     public function subadminpassupdate(Request $request, $id)
-    { 
+    {
         $userId = \Crypt::decrypt($id);
-        $user = Admin::where('id', $userId)->first(); 
-       
+        $user = Admin::where('id', $userId)->first();
+
         if(empty($user)){
-           return redirect('admin/subadminlist'); 
+           return redirect('admin/subadminlist');
         }
-         
+
          $this->validate($request, [
             'username' => 'required|regex:/^[\pL\s\-]+$/u|max:30',
             'email' => 'required|string|email|max:255',
             'password' =>'min:8|max:16|required_with:confirmpassword|same:confirmpassword|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
             'confirmpassword' => 'min:8|max:16|same:password',
             ],
-            [ 
-               'username.required' => 'User Name is required', 
-            ]);    
-        
+            [
+               'username.required' => 'User Name is required',
+            ]);
+
         $userId = \Crypt::decrypt($id);
-        $user = Admin::where('id', $userId)->first(); 
-     
+        $user = Admin::where('id', $userId)->first();
+
         if($user){
            $profile = AdminProfile::where('user_id', $userId)->first();
            $name = $request->get('username');
@@ -383,41 +385,41 @@ public function subadminsearch(Request $request)
                 }
                Admin::where([['id', '=', $userId]])->update(['name' => $name, 'email' => $email, 'password' => $password,'updated_at' => date('Y-m-d H:i:s',time())]);
                 return Redirect::back()->with('message', 'Updated successfully!');
- 
+
            }
-           
-           } 
+
+           }
     }
 
     public function changetwofaupdate(Request $request)
-    { 
-      
+    {
+
         $userId = \Session::get('adminId');
-        $user = Admin::where('id', $userId)->first(); 
-       
+        $user = Admin::where('id', $userId)->first();
+
         if(empty($user)){
-           return redirect('admin/subadminlist'); 
+           return redirect('admin/subadminlist');
         }
-        
+
         Admin::where('id',$userId)->update(['google2fa_verify' => $request->twofa,'updated_at' => date('Y-m-d H:i:s',time())]);
         return Redirect::back()->with('success', 'Updated successfully!');
-           
+
     }
 
     public function resettwofa()
-    { 
-      
+    {
+
         $userId = \Session::get('adminId');
-        $user = Admin::where('id', $userId)->first(); 
-       
+        $user = Admin::where('id', $userId)->first();
+
         if(empty($user)){
-           return redirect('admin/subadminlist'); 
+           return redirect('admin/subadminlist');
         }
-        
+
         Admin::where('id',$userId)->update(['google2fa_verify' => 0,'google2fa_secret' => Null,'updated_at' => date('Y-m-d H:i:s',time())]);
-        
+
         return redirect('admin/security')->with('success', 'Google 2FA Reset successfully!');
-           
+
     }
     function get_client_ip() {
 		$ipaddress = '';
@@ -436,7 +438,7 @@ public function subadminsearch(Request $request)
 		} else {
 		$ipaddress = 'UNKNOWN';
 		}
-	
+
 		return $ipaddress;
 	}
 

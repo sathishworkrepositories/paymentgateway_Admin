@@ -18,7 +18,7 @@ $atitle ="securitysetting";
         </div>
   @endif
   <div class="card">
-    <div class="card-body"> 
+    <div class="card-body">
 
       @if(session('success'))
             <div class="alert alert-success" role="alert">
@@ -70,14 +70,16 @@ $atitle ="securitysetting";
           </div>
           <div class="col-md-4">
             <div class="form-group"> <span id="amount"></span>
-              <input type="password" name="password_confirmation" required="required"  class="form-control" placeholder="Confirm Password" 
+              <input type="password" name="password_confirmation" required="required"  class="form-control" placeholder="Confirm Password"
 								value="" >
               <i class="form-group__bar"></i> </div>
           </div>
         </div>
         <input type="hidden" name="token" class="form-control" value="" placeholder="">
         <div class="form-group">
+            @if(in_array("write", explode(',',$AdminProfiledetails->security)))
           <button type="submit" name="change_password" class="btn btn-light"><i class=""></i> Change Password</button>
+          @endif
         </div>
       </form>
     </div>

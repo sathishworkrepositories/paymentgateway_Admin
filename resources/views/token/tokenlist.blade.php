@@ -15,7 +15,9 @@ $atitle ="coinlist";
           <div class="card-body">
           <h4 class="card-title">Token List Settings</h4>
             <div class="table-responsive">
+             @if(in_array("write", explode(',',$AdminProfiledetails->coinsetting)))
               <a href="{{ url('/admin/addcoin') }}" class="btn btn-info">Add Token</a>
+              @endif
               <br /><br />
               @if (session('status'))
                   <div class="alert alert-success" role="alert">
@@ -37,14 +39,16 @@ $atitle ="coinlist";
                     <th>Decimal</th>
                     <th>Visiblity</th>
                     <th>Status</th>
+                    @if(in_array("read", explode(',',$AdminProfiledetails->coinsetting)) || in_array("delete", explode(',',$AdminProfiledetails->coinsetting)))
                     <th>Action</th>
+                    @endif
                     <th></th>
                   </tr>
                 </thead>
-                <tbody> 
+                <tbody>
                 @foreach($commissions as $key => $commission)
                   <tr>
-                    <td>{{ $key+1 }}</td>                 
+                    <td>{{ $key+1 }}</td>
                     <td>{{ $commission->source }}</td>
                     <td>{{ ucfirst($commission->type) }}</td>
                     <td>{{ $commission->coinname }}</td>
@@ -53,11 +57,15 @@ $atitle ="coinlist";
                     <td>{{ $commission->decimal_value }}</td>
                     <td>{{ $commission->shown == 1 ? 'Show' : 'Hide' }}</td>
                     <td>{{ $commission->status == 1 ? 'Active' : 'Inactive' }}</td>
-                    <td><a href="{{ url('/admin/coinsettings', Crypt::encrypt($commission->id)) }}"
+                    @if(in_array("read", explode(',',$AdminProfiledetails->coinsetting)))
+                        <td><a href="{{ url('/admin/coinsettings', Crypt::encrypt($commission->id)) }}"
                             class="btn btn-info">View / Edit</a></td>
-                    <td><a href="{{ url('/admin/deletedcoin', Crypt::encrypt($commission->id)) }}"
+                    @endif
+                    @if(in_array("delete", explode(',',$AdminProfiledetails->coinsetting)))
+                        <td><a href="{{ url('/admin/deletedcoin', Crypt::encrypt($commission->id)) }}"
                             class="btn btn-info">Delete</a></td>
-                    
+                    @endif
+
                   </tr>
                 @endforeach
                 </tbody>

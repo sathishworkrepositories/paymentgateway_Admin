@@ -3,14 +3,14 @@ $atitle ="dashboard";
 @endphp
 @extends('layouts.header')
 @section('title', 'Admin Dashboard')
-@section('content') 
+@section('content')
 <section class="content">
     <header class="content__title">
         <h1>Dashboard</h1>
     </header>
 
 <div class="row quick-stats listview2">
-       
+
                 <div class="col-sm-6 col-md-4">
                     <div class="quick-stats__item">
                         <div class="quick-stats__info col-md-8">
@@ -36,7 +36,7 @@ $atitle ="dashboard";
                      <div class="col-sm-6 col-md-4">
                     <div class="quick-stats__item">
                         <div class="quick-stats__info col-md-8">
-                            <h2>{{ $details['kycverify'] }}</h2>                                
+                            <h2>{{ $details['kycverify'] }}</h2>
                             <small>KYC Verified Users</small> </div>
                             <div class="col-md-4 text-right">
                                 <h1><i class="zmdi zmdi-badge-check"></i></h1>
@@ -64,7 +64,7 @@ $atitle ="dashboard";
                             <th colspan="2">Action</th>
                         </tr>
                     </thead>
-                    <tbody> 
+                    <tbody>
                     @forelse($details['crypto_deposit'] as $key => $crypto_deposits)
                         <tr>
                             <td>{{ $key+1 }}</td>
@@ -81,9 +81,9 @@ $atitle ="dashboard";
                                 Approved
                             @elseif($crypto_deposits->status==3)
                                 Cancelled
-                            @endif 
+                            @endif
                             </td>
-                        </tr> 
+                        </tr>
                     @empty
                     <tr><td colspan="7">    {{ 'No record found! ' }}</td></tr>
                 @endforelse
@@ -94,7 +94,7 @@ $atitle ="dashboard";
             </div>
         </div>
         <div class="col-md-6">
-        @if(in_array("kyc", explode(',',$AdminProfiledetails->dashboard))) 
+        @if(in_array("kyc", explode(',',$AdminProfiledetails->dashboard)))
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Recent KYC Submit Users (Pending)</h4>
@@ -107,7 +107,9 @@ $atitle ="dashboard";
                                     <th>DOB</th>
                                     <th>Country</th>
                                     <th>Kyc Verify</th>
+                                    @if(in_array("write", explode(',',$AdminProfiledetails->kyc)))
                                     <th>Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -119,7 +121,9 @@ $atitle ="dashboard";
                                     <td>{{ date('m-d-Y', strtotime($kyc_users_data->dob)) }}</td>
                                     <td>{{ $kyc_users_data->country }}</td>
                                     <td>Awaiting Confirmation </td>
+                                    @if(in_array("write", explode(',',$AdminProfiledetails->kyc)))
                                     <td><a class="btn btn-success btn-xs" href="{{ url('admin/kycview/'.Crypt::encrypt($kyc_users_data->id)) }}"><i class="zmdi zmdi-edit"></i> View </a> </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                                 @else
@@ -132,7 +136,7 @@ $atitle ="dashboard";
             </div>
             @endif
         </div>
-         @if(in_array("coinrequest", explode(',',$AdminProfiledetails->dashboard))) 
+         @if(in_array("coinrequest", explode(',',$AdminProfiledetails->dashboard)))
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -146,13 +150,15 @@ $atitle ="dashboard";
                                     <th>Coin Name</th>
                                     <th>Sender</th>
                                     <th>Recipient</th>
-                                    <th>Amount</th> 
-                                    <th>Fee</th> 
-                                    <th>Status</th> 
+                                    <th>Amount</th>
+                                    <th>Fee</th>
+                                    @if(in_array("read", explode(',',$AdminProfiledetails->withdrawhistory)))
+                                    <th>Status</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($details['coinwithdraw_request'] as $coinwithdraw) 
+                                @forelse($details['coinwithdraw_request'] as $coinwithdraw)
                                 <tr>
                                     <td>{{ date('Y/m/d h:i:s', strtotime($coinwithdraw->created_at)) }}</td>
                                     <td><a href="{{ url('admin/users_edit/'.Crypt::encrypt($coinwithdraw->uid)) }} ">{{  $coinwithdraw->user->name }}</a></td>
@@ -162,13 +168,15 @@ $atitle ="dashboard";
                                     <td>{{ number_format($coinwithdraw->request_amount, 8, '.', '') }}</td>
                                     <td>{{ number_format($coinwithdraw->admin_fee, 8, '.', '') }}</td>
                                     <td>
-                                        @if($coinwithdraw->status == 0) 
-                                         <a class="btn btn-success btn-xs" href="{{ url('/admin/crypto_withdraw_edit/'.$coinwithdraw->id) }}"><i class="zmdi zmdi-edit"></i> View </a> 
+                                        @if($coinwithdraw->status == 0)
+                                        @if(in_array("read", explode(',',$AdminProfiledetails->withdrawhistory)))
+                                         <a class="btn btn-success btn-xs" href="{{ url('/admin/crypto_withdraw_edit/'.$coinwithdraw->id) }}"><i class="zmdi zmdi-edit"></i> View </a>
+                                        @endif
                                         @elseif($coinwithdraw->status == 2)  Cancelled
-                                        @elseif($coinwithdraw->status == 1) 
+                                        @elseif($coinwithdraw->status == 1)
                                          Success
                                         @endif
-                                    </td> 
+                                    </td>
                                 </tr>
                                 @empty
                                 <tr><td colspan="8"> No Record Found!</td></tr>
@@ -181,7 +189,7 @@ $atitle ="dashboard";
         </div>
         @endif
         <div class="col-md-6">
-            @if(in_array("currencyrequest", explode(',',$AdminProfiledetails->dashboard))) 
+            @if(in_array("currencyrequest", explode(',',$AdminProfiledetails->dashboard)))
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Recent Currency Withdraw Request (Pending)</h4>
@@ -200,7 +208,7 @@ $atitle ="dashboard";
                             </thead>
                             <tbody>
                                 @if(!empty($details['withdraw_request']))
-                                @foreach($details['withdraw_request'] as $withdraw_requests) 
+                                @foreach($details['withdraw_request'] as $withdraw_requests)
                                 <tr>
                                     <td>{{ date('m-d-Y H:i:s', strtotime($withdraw_requests->created_at)) }}</td>
                                     <td>{{username($withdraw_requests->uid)}}</td>
@@ -235,7 +243,9 @@ $atitle ="dashboard";
                                     <th>Ticket ID</th>
                                     <th>Subject</th>
                                     <th>Message</th>
+                                    @if(in_array("read", explode(',',$AdminProfiledetails->support)))
                                     <th>Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -247,7 +257,9 @@ $atitle ="dashboard";
                                     <td>{{ $support_tickets->ticket_id }}</td>
                                     <td>{{ $support_tickets->subject }}</td>
                                     <td>{{ $support_tickets->message }}</td>
+                                    @if(in_array("read", explode(',',$AdminProfiledetails->support)))
                                     <td><a class="btn btn-success btn-xs" href="{{ url('/admin/reply/'.Crypt::encrypt($support_tickets->id)) }}"><i class="zmdi zmdi-edit"></i> View </a> </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                                 @else

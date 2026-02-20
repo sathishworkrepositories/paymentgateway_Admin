@@ -10,7 +10,7 @@ $atitle ="kyc";
 	</header>
 	<div class="card">
 		<div class="card-body">
-		<div class="table-responsive search_result">				
+		<div class="table-responsive search_result">
 				<table class="table" id="dows">
 					<thead>
 						<tr>
@@ -29,11 +29,13 @@ $atitle ="kyc";
 							<th>Address Line1</th>
 							<th>Address Line1</th>
 							<th>Kyc Verify</th>
+                            @if(in_array("write", explode(',',$AdminProfiledetails->kyc)))
 							<th colspan="2">Action</th>
+                            @endif
 						</tr>
 					</thead>
 					<tbody>
-					 @php 
+					 @php
 					        $i =1;
 				            $limit=10;
 				            if(isset($_GET['page'])){
@@ -41,8 +43,8 @@ $atitle ="kyc";
 								$i = (($limit * $page) - $limit)+1;
 							}else{
 							  $i =1;
-							}        
-						@endphp 
+							}
+						@endphp
 					@forelse($kyc as $key => $user)
 						<tr>
 						<td>{{ $i }}</td>
@@ -62,8 +64,10 @@ $atitle ="kyc";
                              <td>{{ $user->address_line2}}</td>
 
                              <td>@if($user->status == 0) Waiting @elseif($user->status == 1) Accepted @elseif($user->status == 2) Rejected @else No @endif</td>
+                             @if(in_array("write", explode(',',$AdminProfiledetails->kyc)))
                              <td><a class="btn btn-success btn-xs" href="{{ url('admin/kycview/'.Crypt::encrypt($user->id)) }}"><i class="zmdi zmdi-edit"></i> View </a> </td>
-						</tr> 
+                             @endif
+						</tr>
 					@php
 				         $i++;
 				         @endphp
@@ -74,10 +78,10 @@ $atitle ="kyc";
 				</table>
 				<div class="col-md-12 col-sm-12 col-xs-12 nopadding">
                 <div class="pagination-tt clearfix">
-                   
+
                 </div>
               </div>
-				
+
 			</div>
 		</div>
 	</div>

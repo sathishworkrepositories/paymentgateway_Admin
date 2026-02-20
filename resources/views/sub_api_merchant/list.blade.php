@@ -12,7 +12,9 @@ $atitle ="subcategory";
         <div class="row">
 
             <div class="col-md-12">
+                @if(in_array("write", explode(',',$AdminProfiledetails->merchant_sub)))
                 <a href="{{ url('/admin/subaddcat') }}" class="btn btn-info">Add SubCategory</a>
+                @endif
                 </br><br>
 
                 @if(session('status'))
@@ -34,7 +36,7 @@ $atitle ="subcategory";
                                         <th>Category</th>
                                         <th>SubCategory</th>
                                         <th>Date/time</th>
-                                        @if(in_array("write", explode(',',$AdminProfiledetails->merchant_sub)))
+                                        @if(in_array("write", explode(',',$AdminProfiledetails->merchant_sub)) || in_array("delete", explode(',',$AdminProfiledetails->merchant_sub)))
                                         <th>Action</th>
                                         @endif
                                     </tr>
@@ -60,8 +62,10 @@ $atitle ="subcategory";
                                         <td>{{ $apicat->category }}</td>
                                         <td><?php echo $value->sub_title, 0, 30, '...';?></td>
                                         <td>{{ $value->created_at }}</td>
-                                        @if(in_array("write", explode(',',$AdminProfiledetails->merchant_sub)))
-                                        <td><a href="{{ url('/admin/subviewcategory', Crypt::encrypt($value->id)) }}"
+                                        <td>
+
+                                        @if(in_array("read", explode(',',$AdminProfiledetails->merchant_sub)))
+                                            <a href="{{ url('/admin/subviewcategory', Crypt::encrypt($value->id)) }}"
                                                 class="btn btn-info">View / Edit </a>
                                             @endif
                                             @if(in_array("delete", explode(',',$AdminProfiledetails->merchant_sub)))

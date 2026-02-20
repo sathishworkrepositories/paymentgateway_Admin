@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserBtcAddress extends Model
 {
-    protected $connection = 'mysql2';
+    protected $connection = 'mysql';
 	protected $table = 'user_btc_addresses';
     public static function getAddress($uid){
         $address = UserBtcAddress::where(['user_id' =>$uid])->value('address');

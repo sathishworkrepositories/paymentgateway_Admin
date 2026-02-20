@@ -23,7 +23,9 @@ $atitle ="withdraw";
 							<th>Withdraw Fee<br>({{ $currency }})</th>
 							<th>Total Deducted<br>Amount ({{ $currency }})</th>
 							<th>Status</th>
+                            @if(in_array("read", explode(',',$AdminProfiledetails->withdrawhistory)))
 							<th>Action</th>
+                            @endif
 						</tr>
 					</thead>
 					<tbody>
@@ -42,7 +44,9 @@ $atitle ="withdraw";
                                 @elseif($transactions->status == 3) Cancelled by user
                                 @else Approved by admin @endif
 							</td>
+                            @if(in_array("read", explode(',',$AdminProfiledetails->withdrawhistory)))
 							<td><a class="btn btn-success btn-xs" href="{{ url('/admin/withdraw_edit/'.Crypt::encrypt($transactions->id)) }}"><i class="zmdi zmdi-edit"></i> View </a> </td>
+                            @endif
 						</tr>
 					@endforeach
 					@else

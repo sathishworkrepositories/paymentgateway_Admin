@@ -12,7 +12,8 @@ $atitle ="user";
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-body">
-					<a href="{{ url('admin/user_withdraw/'.Crypt::encrypt($withdraw->uid)) }}"><i class="zmdi zmdi-arrow-left"></i> Back to withdraw history</a>
+
+					<a href="{{ url('admin/user_withdraw/'.Crypt::encrypt($withdraw->user_id)) }}"><i class="zmdi zmdi-arrow-left"></i> Back to withdraw history</a>
 					<br /><br />
 					@if(session('status'))
                         <div class="alert alert-success" role="alert">
