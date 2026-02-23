@@ -12,9 +12,24 @@ $atitle ="subcategory";
         <div class="row">
 
             <div class="col-md-12">
-                @if(in_array("write", explode(',',$AdminProfiledetails->merchant_sub)))
-                <a href="{{ url('/admin/subaddcat') }}" class="btn btn-info">Add SubCategory</a>
-                @endif
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="{{ url('admin/subcategory') }}/filter" method="get">
+                            {{ csrf_field() }}
+                        <input type="text" id="myInput" name="searchphrase" value="{{ $searchphrase ?? '' }}" placeholder="Search for category or subcategory.." class="form-control">
+                        <button type="submit" id="searchbtn" class="btn btn-primary btn-sm mt-2">Search</button>
+                        <a type="button" class="btn btn-primary btn-sm mt-2" href="{{ url('admin/subcategory') }}">Reset</a>
+                        </form>
+
+
+                    </div>
+                    <div class="col-md-6" style="text-align: right !important;">
+                        @if(in_array("write", explode(',',$AdminProfiledetails->merchant_sub)))
+                        <a href="{{ url('/admin/subaddcat') }}" class="btn btn-info">Add SubCategory</a>
+                        @endif
+                    </div>
+                </div>
+
                 </br><br>
 
                 @if(session('status'))

@@ -66,14 +66,14 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
 	Route::post('user_update_cryptowithdraw', 'UserController@updateCryptoWithdraw');
 
 	//Deposit
-	Route::get('deposits/{coin}', 'HistroyController@DepositList');
+	Route::get('deposits/{coin}/{search?}', 'HistroyController@DepositList');
 	Route::get('cryptodeposit/{id}', 'HistroyController@CryptoDepositEdit');
 	Route::post('cryptodeposit_update', 'HistroyController@CryptoDepositUpdate');
 	Route::get('fiatdeposit_edit/{id}', 'HistroyController@FiatDepositEdit');
 	Route::post('fiatdeposit_update', 'HistroyController@FiatDepositUpdate');
 
 	//Withdraw
-	Route::get('withdraw/{coin}', 'HistroyController@WithdrawList');
+	Route::get('withdraw/{coin}/{search?}', 'HistroyController@WithdrawList');
 	Route::get('crypto_withdraw_edit/{id}', 'HistroyController@WithdrawCryptoEdit');
 	Route::post('update_cryptowithdraw', 'HistroyController@updateCryptoWithdraw');
 	Route::get('withdraw_edit/{id}', 'HistroyController@withdrawFiatEdit');
@@ -81,12 +81,12 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
 
 
 	//Commission
-	Route::get('commission', 'CommissionController@index');
+	Route::get('commission/{search?}', 'CommissionController@index');
 	Route::get('commissionsettings/{id}', 'CommissionController@edit');
 	Route::post('commissionupdate', 'CommissionController@commissionUpdate');
 
 	//Token Setting
-	Route::get('/coinlist','CommissionController@tokenlist');
+	Route::get('coinlist/{search?}','CommissionController@tokenlist');
 	Route::get('addcoin', 'CommissionController@addcoin');
 	Route::post('addcoininsert', 'CommissionController@addcoininsert');
 	Route::get('coinsettings/{id}', 'CommissionController@tokenedit');
@@ -94,12 +94,12 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
 	Route::get('deletedcoin/{id}', 'CommissionController@coinDelete');
 
 	//Support
-	Route::get('support', 'SupportController@index');
+	Route::get('support/{search?}', 'SupportController@index');
 	Route::get('reply/{id}', 'SupportController@reply');
 	Route::post('tickets/adminsavechat', 'SupportController@adminsavechat');
 
 	//Kyc
-	Route::get('kyc', 'KycController@index');
+	Route::get('kyc/{search?}', 'KycController@index');
 	Route::get('kycview/{id}', 'KycController@kycview');
 	Route::post('kycupdate', 'KycController@kycadminUpdate');
 
@@ -147,14 +147,14 @@ Route::group([ 'middleware' => ['admin','twofa'], 'prefix'=>'admin', 'namespace'
 	Route::post('changeusername', 'DashboardController@updateUsername');
 	Route::post('changepassword', 'DashboardController@changepassword');
 
-	Route::get('category', 'NaijaapiController@index');
+	Route::get('category/{search?}', 'NaijaapiController@index');
 	Route::get('addcat', 'NaijaapiController@addforum');
 	Route::post('addcategory', 'NaijaapiController@addcategory');
 	Route::get('viewcategory/{id}', 'NaijaapiController@viewcategory');
 	Route::post('updatecategory', 'NaijaapiController@updatecategory');
 	Route::get('cat_delete/{id}', 'NaijaapiController@cat_rem');
 
-	Route::get('subcategory', 'NaijaapiController@subcategory');
+	Route::get('subcategory/{search?}', 'NaijaapiController@subcategory');
 	Route::get('subaddcat', 'NaijaapiController@subaddcat');
 	Route::post('subaddcategory', 'NaijaapiController@subaddcategory');
 	Route::get('subviewcategory/{id}', 'NaijaapiController@subviewcategory');

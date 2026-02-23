@@ -107,19 +107,8 @@
                     </li>
                     @endif
                     @if(in_array("read", explode(',',$AdminProfiledetails->deposithistory)))
-                    {{-- <li class="navigation__sub navigation__sub--toggled"><a href="#"><i class="fa fa-money"
-                                aria-hidden="true"></i>User Deposit History</a>
-                        <ul @if($active=="deposit" ) style="display: block;" @else style="display: none;" @endif>
-                            @php $selectedcoin = \Request::segment(3); @endphp
-                            @forelse(list_coin() as $coin)
-                            <li class="@@colorsactive"><a @if($selectedcoin==$coin->source) class="active" @endif
-                                    href="{{ url('admin/deposits/'.$coin->source) }}">{{$coin->source}}</a></li>
-                            @empty
-                            <li class="@@colorsactive"><a href="#">No Coins list</a></li>
-                            @endforelse
-                        </ul>
-                    </li> --}}
-                    <li class="navigation__sub navigation__sub--toggled deposittoggler"><a href="#"><i class="fa fa-money"
+
+                    {{-- <li class="navigation__sub navigation__sub--toggled deposittoggler"><a href="#"><i class="fa fa-money"
                                 aria-hidden="true"></i>User Deposit History</a>
                         <ul class="listoddeposits">
                             @php $selectedcoin = \Request::segment(3); @endphp
@@ -130,37 +119,18 @@
                             <li class="@@colorsactive"><a href="#">No Coins list</a></li>
                             @endforelse
                         </ul>
-                    </li>
-                    @endif
-                    {{-- @if(in_array("read", explode(',',$AdminProfiledetails->tradehistory))) --}}
-                    {{-- <li class="navigation__sub navigation__sub--toggled"><a href="#"><i class="fa fa-arrows"
-                                aria-hidden="true"></i>User Withdraw History</a>
-                        <ul @if($active=="withdraw" ) style="display: block;" @else style="display: none;" @endif>
-                            @php $selectedcoin = \Request::segment(3); @endphp
-                            @forelse(list_coin() as $coin)
-                            <li class="@@colorsactive"><a @if($selectedcoin==$coin->source) class="active" @endif
-                                    href="{{ url('admin/withdraw/'.$coin->source) }}">{{$coin->source}}</a></li>
-                            @empty
-                            <li class="@@colorsactive"><a href="#">No Coins list</a></li>
-                            @endforelse
-                        </ul>
                     </li> --}}
-                    @if(in_array("read", explode(',',$AdminProfiledetails->withdrawhistory)))
+                    <li class="navigation__sub navigation__sub--toggled togglerwithdraw"><a href="{{ url('admin/deposits/USDT') }}"><i class="fa fa-arrows"
+                                aria-hidden="true"></i>User Deposit History</a>
+                    </li>
+                    @endif
 
-                    <li class="navigation__sub navigation__sub--toggled togglerwithdraw"><a href="#"><i class="fa fa-arrows"
+
+                    <li class="navigation__sub navigation__sub--toggled togglerwithdraw"><a href="{{ url('admin/withdraw/USDT') }}"><i class="fa fa-arrows"
                                 aria-hidden="true"></i>User Withdraw History</a>
-                        <ul class="listofwithdraw" style="display:none;">
-                            @php $selectedcoin = \Request::segment(3); @endphp
-                            @forelse(list_coin() as $coin)
-                            <li class="@@colorsactive"><a @if(($selectedcoin==$coin->source) && $active=="withdraw") class="active" @endif
-                                    href="{{ url('admin/withdraw/'.$coin->source) }}">{{$coin->source}}</a></li>
-                            @empty
-                            <li class="@@colorsactive"><a href="#">No Coins list</a></li>
-                            @endforelse
-                        </ul>
                     </li>
 
-                    @endif
+                    {{-- @endif --}}
                     @if(in_array("read", explode(',',$AdminProfiledetails->addadmin)))
                     <li class="@@photogalleryactive"><a @if($active=="" ) class="active" @endif
                             href="{{ url('/admin/subadminlist') }}"><i class="zmdi zmdi-assignment-o"></i>Sub-Admin

@@ -27,14 +27,36 @@ class KycController extends Controller
         $this->middleware('admin');
     }
 
-    public function index()
+    public function index(Request $request, $search = null)
     {
 
-    	$kyc = Kyc::index();
+        if (isset($search) && !isset($request->searchphrase) && !isset($request->filerst)) {
 
-    	return view('user.kyc',[
-    			'kyc' => $kyc
-    		]);
+            return back()->with('status', "Please enter search phrase!");
+        }
+
+        $search = $request->searchphrase ?? "";
+        $status = $request->filerst ?? "";
+
+
+    	$kyc = Kyc::when($search !== "", function ($query) use ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('fname', 'LIKE', "%{$search}%")
+              ->orWhere('lname', 'LIKE', "%{$search}%");
+        });
+        })
+        ->when($status !== "" && $status !== null, function ($query) use ($status) {
+            $query->where('status', $status);
+        })
+        ->orderByDesc('id')
+        ->paginate(10)
+        ->appends($request->all());
+
+        return view('user.kyc',[
+            'kyc' => $kyc,
+            'search' => $search,
+            'status' => $status
+        ]);
     }
 
     public function kycview($id)

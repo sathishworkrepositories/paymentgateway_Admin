@@ -13,7 +13,23 @@ $atitle ="commission";
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
-          <h4 class="card-title">Commission Settings </h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="{{ url('admin/commission') }}/filter" method="get">
+                        {{ csrf_field() }}
+                        <select name="searchphrase" class="form-control" id="searchphrase">
+                        <option value="">Select Coin</option>
+                        @foreach (list_coin() as $key => $val)
+                            <option value="{{ $val->source ?? '' }}" @if($searchphrase == $val->source) selected @endif>
+                                {{ $val->source ?? '' }}</option>
+                        @endforeach
+                        </select>
+                        <button type="submit" id="searchbtn" class="btn btn-primary btn-sm mt-2">Search</button>
+                        <a type="button" class="btn btn-primary btn-sm mt-2" href="{{ url('admin/commission') }}">Reset</a>
+
+                    </form>
+                </div>
+            </div>
             <div class="table-responsive">
 
               @if(count($commissions))

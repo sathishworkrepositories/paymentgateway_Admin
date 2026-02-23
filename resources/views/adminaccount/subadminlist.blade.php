@@ -30,11 +30,11 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <input type="text" name="fromdate" class="form-control date-picker" id="datepicker"
-                                        value="" placeholder="Start Date" />
+                                        value="{{ $from ?? ''}}" placeholder="Start Date" />
                                 </div>
                                 <div class="col-md-3">
                                     <input type="text" name="todate" class="form-control date-picker" id="datepicker2"
-                                        value="" placeholder="End Date" />
+                                        value="{{ $todate ?? ''}}" placeholder="End Date" />
                                 </div>
                                 <div class="col-md-3">
                                     <input type="submit" class="btn btn-light" value="Search" />
