@@ -64,28 +64,28 @@ $atitle ="user";
 						$receive_mail=explode(",",isset($merchant->receive_mail));
 						@endphp
 						<div class="row">
-							<div class="col-md-3">
+							{{-- <div class="col-md-3">
 								<div class="form-group">
 									<label>Receive mail</label>
 								</div>
-							</div>
+							</div> --}}
 							<div class="col-md-6">
-								<div class="form-group">
+								{{-- <div class="form-group">
 									<label>When a user submits a new payment to you
-										<input type="checkbox" name="receive_mail[]" value="1" @if (in_array(1,$receive_mail)) checked @endif> 
+										<input type="checkbox" name="receive_mail[]" value="1" @if (in_array(1,$receive_mail)) checked @endif>
 										<span class="checkmark"></span> </label>
 										<label>When funds have been received by us for a payment to you
 											<input name="receive_mail[]" value="2" type="checkbox" @if (in_array(2, $receive_mail)) checked @endif > <span class="checkmark"></span></label>
 											<label>When funds for a payment have been sent to you
-												<input name="receive_mail[]" value="3" type="checkbox" @if (in_array(3, $receive_mail)) checked @endif> <span class="checkmark"></span> 
+												<input name="receive_mail[]" value="3" type="checkbox" @if (in_array(3, $receive_mail)) checked @endif> <span class="checkmark"></span>
 											</label>
 											<label>When a deposit is received on one of your deposit addresses
-												<input name="receive_mail[]" value="4" type="checkbox" @if (in_array(4, $receive_mail)) checked @endif> <span class="checkmark"></span> 
+												<input name="receive_mail[]" value="4" type="checkbox" @if (in_array(4, $receive_mail)) checked @endif> <span class="checkmark"></span>
 											</label>
 										</div>
 									</div>
-								</div>
-								<div class="row">
+								</div> --}}
+								{{-- <div class="row">
 									<div class="col-md-3">
 										<div class="form-group">
 											<label>Status mail</label>
@@ -96,7 +96,7 @@ $atitle ="user";
 											<input type="text" name="coin" class="form-control" value="{{ isset($merchant->status_email) != NULL ? $merchant->status_email : '' }}"  readonly /><i class="form-group__bar"></i>
 										</div>
 									</div>
-								</div>
+								</div> --}}
 							</form>
 						</div>
 					</div>

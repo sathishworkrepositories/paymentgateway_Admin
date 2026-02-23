@@ -13,11 +13,31 @@ $atitle ="coinlist";
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
-          <h4 class="card-title">Token List Settings</h4>
-            <div class="table-responsive">
-             @if(in_array("write", explode(',',$AdminProfiledetails->coinsetting)))
+          <div class="row">
+
+            <div class="col-md-6">
+                <form action="{{ url('admin/coinlist') }}/filter" method="get">
+                        {{ csrf_field() }}
+                        <select name="searchphrase" class="form-control" id="searchphrase">
+                        <option value="">Select Coin</option>
+                        @foreach (list_coin() as $key => $val)
+                            <option value="{{ $val->source ?? '' }}" @if($searchphrase == $val->source) selected @endif>
+                                {{ $val->source ?? '' }}</option>
+                        @endforeach
+                        </select>
+                        <button type="submit" id="searchbtn" class="btn btn-primary btn-sm mt-2">Search</button>
+                        <a type="button" class="btn btn-primary btn-sm mt-2" href="{{ url('admin/coinlist') }}">Reset</a>
+
+                    </form>
+            </div>
+            <div class="col-md-6" style="text-align: right !important;">
+                @if(in_array("write", explode(',',$AdminProfiledetails->coinsetting)))
               <a href="{{ url('/admin/addcoin') }}" class="btn btn-info">Add Token</a>
               @endif
+            </div>
+          </div>
+            <div class="table-responsive">
+
               <br /><br />
               @if (session('status'))
                   <div class="alert alert-success" role="alert">

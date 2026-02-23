@@ -20,10 +20,19 @@ class CommissionController extends Controller {
         $this->middleware('admin');
     }
 
-    public function index() {
-        $commission = Commission::index();
+    public function index(Request $request,$search=null) {
+        $commission = "";
+        $searchphrase = $request->searchphrase ?? "";
+        if(isset($search) && $request->searchphrase != ""){
+            $commission = Commission::where('source', 'LIKE', "%{$request->searchphrase}%")->paginate(10)
+            ->appends($request->all());
+        }else{
+            $commission = Commission::index();
+        }
+
         return view('commission.commission',[
-            'commissions' => $commission
+            'commissions' => $commission,
+            'searchphrase' => $searchphrase
         ]);
     }
 
@@ -46,14 +55,24 @@ class CommissionController extends Controller {
     }
 
 
-    public function tokenlist(){
-        $commission = Commission::where('type','!=','coin')->paginate(15);
-        return view('token.tokenlist',['commissions' => $commission]);
+    public function tokenlist(Request $request,$search=null) {
+
+        if(isset($search) && !isset($request->searchphrase)){
+            return back()->with('error','Please enter search phrase');
+        };
+        $commission = Commission::where('type','!=','coin')
+        ->when($search, function ($query) use ($request) {
+            $query->where('source', 'LIKE', "%{$request->searchphrase}%");
+        })
+        ->paginate(10)
+        ->appends($request->all());
+
+        return view('token.tokenlist',['commissions' => $commission,"searchphrase" => $request->searchphrase]);
     }
 
     public function addcoin(Request $request)
     {
-        
+
         return view('token.add');
     }
 
@@ -74,14 +93,14 @@ class CommissionController extends Controller {
                 $pho->move(public_path($path), $photo);
             }else{
                 $photo = 'eth.svg';
-            } 
-        }catch (Exception $e) { 
+            }
+        }catch (Exception $e) {
             $photo = strtolower($request->symbol).'.svg';
         }
 
         $type = $request->type;
 
-        
+
         if($type == 'bsctoken'){
             $assertype = 'BEP20';
         }else if($type == 'trxtoken'){
@@ -95,9 +114,9 @@ class CommissionController extends Controller {
         }else{
             $assertype = 'token';
         }
-        
+
         $commission = new Commission();
-        $commission->source        = $request->symbol; 
+        $commission->source        = $request->symbol;
         $commission->withdraw  = $request->withdraw;
         $commission->assertype = $assertype;
         $commission->type = $request->type;
@@ -117,9 +136,9 @@ class CommissionController extends Controller {
         // $commission->orderlist = $request->orderlist;
         $commission->status = $request->status;
         // $commission->is_swap =$request->is_swap;
-       
+
         // $commission->is_deposit = $request->is_deposit;
-        // $commission->is_withdraw = $request->is_withdraw; 
+        // $commission->is_withdraw = $request->is_withdraw;
         $commission->status = $request->status;
 
         $commission->image = $photo;
@@ -148,8 +167,8 @@ class CommissionController extends Controller {
             $coinones = Tradepair::on('mysql2')->where([['coinone' ,'=', $commission->source]])->update(['coinone' => $request->symbol]);
             UserWallet::on('mysql2')->where([['currency' ,'=', $commission->source]])->update(['currency' => $request->symbol]);
 
-        }        
-        $commission->source        = $request->symbol; 
+        }
+        $commission->source        = $request->symbol;
         $commission->withdraw  = $request->withdraw;
         $commission->type = $request->type;
         $commission->coinname = $request->coinname;
@@ -165,7 +184,7 @@ class CommissionController extends Controller {
         $commission->status = $request->status;
         $commission->autowithdraw = 0;
 
-        
+
         try {
             if(isset($request->image)){
                 $pho = $request->image;
@@ -179,11 +198,11 @@ class CommissionController extends Controller {
                 }
                 Storage::disk('ftpcoin')->put($photo, fopen($request->file('image'), 'r+'));
                 $commission->image = $photo;
-                
+
             }else{
                 $commission->image = $commission->image;
             }
-        }catch (Exception $e) { 
+        }catch (Exception $e) {
             $commission->image = $commission->image;
         }
 
@@ -194,20 +213,20 @@ class CommissionController extends Controller {
 
 
     public function coinDelete($id){
-        
+
         $id  = Crypt::decrypt($id);
         $commission = Commission::on('mysql2')->where('id', $id)->first();
         if($commission){
            $coin    = $commission->source;
 
-           $coinones = Tradepair::on('mysql2')->where([['coinone' ,'=', $coin]])->get(); 
+           $coinones = Tradepair::on('mysql2')->where([['coinone' ,'=', $coin]])->get();
            if(count($coinones) > 0){
                 foreach ($coinones as $coinone) {
                     BuyTrades::on('mysql2')->where([['pair', '=', $coinone->id]])->delete();
                     SellTrades::on('mysql2')->where([['pair', '=', $coinone->id]])->delete();
                 }
                 $coinones = Tradepair::on('mysql2')->where([['coinone' ,'=', $coin]])->delete();
-           } 
+           }
            $cointwos = Tradepair::on('mysql2')->where([['cointwo' ,'=', $coin]])->get();
            if(count($cointwos) > 0){
                 foreach ($cointwos as $cointwo) {
@@ -215,11 +234,11 @@ class CommissionController extends Controller {
                     SellTrades::on('mysql2')->where([['pair', '=', $cointwo->id]])->delete();
                 }
                 $cointwos = Tradepair::on('mysql2')->where([['cointwo' ,'=', $coin]])->delete();
-           } 
+           }
            Commission::on('mysql2')->where('id', $id)->delete();
            return back()->with('status','Token Delete Successfully');
         }
         return back()->with('error','Invalid Token ');
 
     }
-}   
+}

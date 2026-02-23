@@ -315,17 +315,21 @@ public function subadminsearch(Request $request)
       $adminid = \Session::get('adminId');
       $subadmin = AdminProfile::where(['user_id' => $adminid])->first();
 
-    $newDate = date('Y-m-d', strtotime($request->fromdate));
-    $newDate1 = date('Y-m-d', strtotime($request->todate));
-    if($request->fromdate !="" && $request->todate !="")
-    {
-    $list = Admin::subadmin_date_search($newDate,$newDate1);
-    }
-    else{
-    return redirect('admin/subadminlist')->with('searcherror', 'Start and End dates required!');
-    }
+        $newDate = date('Y-m-d', strtotime($request->fromdate));
+        $newDate1 = date('Y-m-d', strtotime($request->todate));
+        if($request->fromdate !="" && $request->todate !="")
+        {
+        $list = Admin::whereDate('created_at','>=',$newDate)
+        ->whereDate('created_at','<=',$newDate1)
+        ->where('type',2)->orderBy('id','desc')
+        ->paginate(25);
 
-    return view('adminaccount.subadminlist',['admins' => $list,'i' => $i,'subadmin' =>  $subadmin]);
+        }
+        else{
+        return redirect('admin/subadminlist')->with('searcherror', 'Start and End dates required!');
+        }
+
+        return view('adminaccount.subadminlist',['admins' => $list,'i' => $i,'subadmin' =>  $subadmin,'from' => $newDate, 'todate' => $newDate1]);
     }
 
 	public function subadminchangepassword($id)

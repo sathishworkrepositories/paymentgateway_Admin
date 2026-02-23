@@ -14,10 +14,22 @@ class NaijaapiController extends Controller {
         $this->middleware('admin');
     }
 
-    public function index() {
-        $forum = Apicategory::index();
+    public function index(Request $request,$search=null) {
+        if(isset($search) && !$request->searchphrase != ""){
+            return redirect('/admin/category')->with('error','Search field required!');
+        }
+
+        $searchphrase = $request->searchphrase ?? "";
+
+        $forum = Apicategory::when($searchphrase, function ($query) use ($searchphrase) {
+            return $query->where('category', 'LIKE', "%{$searchphrase}%");
+        })
+        ->paginate(10)
+        ->appends($request->all());
+
         return view('api_merchant.list',[
-            'forum' => $forum
+            'forum' => $forum,
+            'searchphrase' => $searchphrase
         ]);
     }
 
@@ -68,10 +80,20 @@ class NaijaapiController extends Controller {
         }
     }
 
-    public function subcategory() {
-        $forum = Subapicategory::index();
+    public function subcategory(Request $request,$search=null) {
+        if(isset($search) && !$request->searchphrase != ""){
+            return redirect('/admin/subcategory')->with('error','Search field required!');
+        }
+        $searchphrase = $request->searchphrase ?? "";
+        $forum = Subapicategory::leftjoin('api_category', 'sub_merchant_api.cat_id', '=', 'api_category.id')
+        ->when($searchphrase, function ($query) use ($searchphrase) {
+            $query->where('sub_merchant_api.sub_title', 'LIKE', "%{$searchphrase}%")
+            ->orWhere('api_category.category', 'LIKE', "%{$searchphrase}%");
+        })
+        ->paginate(10);
         return view('sub_api_merchant.list',[
-            'forum' => $forum
+            'forum' => $forum,
+            'searchphrase' => $searchphrase
         ]);
     }
 
