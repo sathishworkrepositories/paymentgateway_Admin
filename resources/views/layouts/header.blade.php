@@ -120,13 +120,13 @@
                             @endforelse
                         </ul>
                     </li> --}}
-                    <li class="navigation__sub navigation__sub--toggled togglerwithdraw"><a href="{{ url('admin/deposits/USDT') }}"><i class="fa fa-arrows"
+                    <li class="navigation__sub navigation__sub--toggled togglerwithdraw"><a @if($active=="deposit" ) class="active" @endif href="{{ url('admin/deposits/USDT') }}"><i class="fa fa-arrows"
                                 aria-hidden="true"></i>User Deposit History</a>
                     </li>
                     @endif
 
 
-                    <li class="navigation__sub navigation__sub--toggled togglerwithdraw"><a href="{{ url('admin/withdraw/USDT') }}"><i class="fa fa-arrows"
+                    <li class="navigation__sub navigation__sub--toggled togglerwithdraw"><a @if($active=="withdraw" ) class="active" @endif href="{{ url('admin/withdraw/USDT') }}"><i class="fa fa-arrows"
                                 aria-hidden="true"></i>User Withdraw History</a>
                     </li>
 

@@ -83,6 +83,7 @@ class SupportController extends Controller
             $ticketChat->admin_status = 1;
 
             if ($ticketChat->save()) {
+                dd(5);
                 TicketChat::where('ticketid', $chat_id)->update(['admin_status' => 1]);
                 $userEmail = User::where('id', $userid)->first();
                 $email     = $userEmail->email;
