@@ -4,6 +4,11 @@ $atitle ="support";
 @extends('layouts.header')
 @section('title', 'Tickets - Reply')
 @section('content')
+<style>
+    .blacktxt{
+        color:black !important;
+    }
+</style>
 <section class="content">
 <div class="content__inner">
 <header class="content__title">
@@ -78,7 +83,7 @@ $atitle ="support";
 <input type="hidden" name="userid"  id="userid" value="{{ $chatlist[0]->uid }}">
 <div class="row">
 <div class="col-md-11">
-<textarea class="messages__reply__text message1" style="color:black !important" name="message" id="admin_support_textbox" placeholder="Type a message..." required></textarea>
+<textarea class="messages__reply__text message1 blacktxt" style="color:black !important" name="message" id="admin_support_textbox" placeholder="Type a message..." required></textarea>
 </div>
 <div class="col-md-1"><br>
 <input type="hidden" name="csrf" value="sfa">
