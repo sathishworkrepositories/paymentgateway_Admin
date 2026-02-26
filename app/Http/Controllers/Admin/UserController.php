@@ -192,7 +192,10 @@ return Redirect('admin/users_wallet/'.$uid);
 }
 
 public function usersearch(Request $request) {
-$q = $request->searchitem;
+$q = $request->searchitem ?? "";
+if($q == "") {
+return Redirect('admin/users')->with('searcherror','Search field is required!');
+}
 $details = User::user_name_search(1, $q);
 return view('user.users')->with(['details' => $details,'searchable' => $q]);
 }

@@ -8,6 +8,18 @@ $atitle ="user";
     <header class="content__title">
         <h1>Users</h1>
     </header>
+    @if (Session::has('success'))
+        <div class="alert alert-info">{{ Session::get('success') }}</div>
+        @elseif (Session::has('error'))
+        <div class="alert alert-danger">{{ Session::get('error') }}</div>
+        @endif
+
+        @if ($message = Session::get('searcherror'))
+        <div class="alert alert-danger alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>{{ $message }}</strong>
+        </div>
+        @endif
     <div class="card">
         <div class="card-body">
             <form action="{{ url('/admin/users/search') }}" method="get" autocomplete="off">
